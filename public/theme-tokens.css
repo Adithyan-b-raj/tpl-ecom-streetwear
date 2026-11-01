@@ -1,17 +1,31 @@
-/* Extracted via tpl-tools-design-extractor for tpl-ecom-streetwear */
+/* ==========================================================================
+   BMAD Normalized Design Tokens & Movement Blueprint (theme-tokens.css)
+   Movement  : [B] Raw Acid Neo-Brutalism
+   Archetype : Streetwear Flash-Drop & Hype Vault (Palace / Gumroad / Balenciaga / MSCHF)
+   Reference : https://gumroad.com
+   Contract  : whitelabel-and-showroom-contract.md §2 + design-movements-and-layout-blueprints.md
+   ========================================================================== */
+
 :root {
   --font-primary: 'Space Grotesk', sans-serif;
   --font-accent: 'Syne', sans-serif;
-  --color-primary: #E11D48;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-primary: #FF2A00;
   --brand-primary: var(--color-primary);
-  --color-dark: #09090B;
+
+  --color-dark: #0A0A0A;
   --brand-dark: var(--color-dark);
-  --bg-main: #09090B;
-  --bg-canvas: #141418;
+
+  --bg-main: #F4F4F0;
+  --bg-canvas: #E5FF00;
   --bg-sand: var(--bg-canvas);
-  --border-color: #27272A;
-  --grid-gap-desktop: 28px 22px;
-  --grid-gap-mobile: 16px 14px;
-  --radius: 6px;
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --border-color: #0A0A0A;
+  --border-structural: 3px solid #0A0A0A;
+  --shadow-token: 6px 6px 0px #0A0A0A;
+  --grid-gap-desktop: 0px;
+  --grid-gap-mobile: 0px;
+  --radius: 0px;
+  --ease-out-expo: steps(4, end);
 }

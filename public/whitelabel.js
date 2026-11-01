@@ -1,6 +1,6 @@
 /**
  * BMAD White-Label URL Personalizer Engine (whitelabel.js)
- * Supports: ?brand=&tagline=&primary=&dark=&bg=&wa=&logo=&reset_wl=1
+ * Supports: ?brand=&tagline=&primary=&dark=&bg=&wa=&phone=&logo=&reset_wl=1
  * Persists across Customer (/) and Admin (/admin.html) views via sessionStorage + link propagation.
  */
 (function () {
@@ -40,6 +40,7 @@
     if (params.has('dark')) updated.dark = sanitizeHex(params.get('dark'));
     if (params.has('bg')) updated.bg = sanitizeHex(params.get('bg'));
     if (params.has('wa')) updated.wa = sanitizePhone(params.get('wa'));
+    if (params.has('phone')) updated.wa = sanitizePhone(params.get('phone'));
     if (params.has('logo')) updated.logo = params.get('logo').trim();
 
     try {
@@ -74,7 +75,7 @@
     while (el.firstChild) el.removeChild(el.firstChild);
     var parts = brandText.split(/\s+/);
     var mainPart = parts[0] || brandText;
-    var subPart = parts.length > 1 ? parts.slice(1).join(' ') : (fallbackSub || 'Boutique');
+    var subPart = parts.length > 1 ? parts.slice(1).join(' ') : (fallbackSub || 'VAULT');
     el.appendChild(document.createTextNode(mainPart + ' '));
     var span = document.createElement('span');
     span.textContent = subPart;
@@ -97,21 +98,21 @@
           img.style.display = 'block';
           el.appendChild(img);
         } else if (cfg.brand) {
-          renderSplitBrand(el, cfg.brand, 'Boutique');
+          renderSplitBrand(el, cfg.brand, 'STUDIO');
         }
       });
     }
 
     if (cfg.brand) {
       var isAdmin = window.location.pathname.indexOf('admin') !== -1;
-      document.title = cfg.brand + (isAdmin ? ' — Command Center & POS' : ' — Official Boutique Store');
+      document.title = cfg.brand + (isAdmin ? ' — Drop Quota Controller & POS' : ' — Acid Streetwear Drop');
 
       document.querySelectorAll('.sidebar-brand-title').forEach(function (el) {
-        renderSplitBrand(el, cfg.brand, 'Hub');
+        renderSplitBrand(el, cfg.brand, 'CONSOLE');
       });
 
       document.querySelectorAll('.mobile-brand').forEach(function (el) {
-        renderSplitBrand(el, cfg.brand, 'Hub');
+        renderSplitBrand(el, cfg.brand, 'STREETWEAR');
       });
 
       document.querySelectorAll('[data-wl-brand]').forEach(function (el) {
@@ -127,7 +128,7 @@
 
     if (cfg.wa || cfg.brand) {
       var waBtn = document.getElementById('floatingWaBtn');
-      var activeBrand = cfg.brand || 'Kaka by Eliza';
+      var activeBrand = cfg.brand || 'VAULT® Streetwear';
       var activeWa = cfg.wa;
       if (!activeWa && waBtn && waBtn.href) {
         var m = waBtn.href.match(/wa\.me\/([0-9]+)/);
@@ -135,31 +136,37 @@
       }
       if (activeWa) {
         if (waBtn) {
-          waBtn.href = 'https://wa.me/' + activeWa + '?text=' + encodeURIComponent('Hello ' + activeBrand + ', I have an inquiry regarding your collection');
+          waBtn.href = 'https://wa.me/' + activeWa + '?text=' + encodeURIComponent('Yo ' + activeBrand + ', I have an inquiry on Drop 04 items.');
         }
         var drawerWa = document.getElementById('drawerWaText');
         if (drawerWa) {
           var formatted = activeWa.length === 12
             ? '+' + activeWa.slice(0, 2) + ' ' + activeWa.slice(2, 7) + ' ' + activeWa.slice(7)
             : '+' + activeWa;
-          drawerWa.textContent = 'WhatsApp: ' + formatted;
+          drawerWa.textContent = 'Drop Concierge: ' + formatted;
         }
-        document.querySelectorAll('#adminWaInput, input[data-wl-wa]').forEach(function (inp) {
-          inp.value = activeWa;
+        document.querySelectorAll('#adminWaInput, input[data-wl-wa], #posPhoneInput').forEach(function (inp) {
+          if (!inp.value || inp.value === '919061902295') {
+            inp.value = activeWa;
+          }
         });
       }
     }
 
     // Propagate query params across internal links (index.html <-> admin.html)
     var qs = new URLSearchParams();
-    ['brand', 'tagline', 'primary', 'dark', 'bg', 'wa', 'logo'].forEach(function (k) {
+    ['brand', 'tagline', 'primary', 'dark', 'bg', 'wa', 'phone', 'logo'].forEach(function (k) {
       if (cfg[k]) qs.set(k, cfg[k]);
     });
     var qsStr = qs.toString();
     if (qsStr) {
-      document.querySelectorAll('a[href^="admin.html"], a[href^="index.html"]').forEach(function (a) {
-        var base = a.getAttribute('href').split('?')[0];
-        a.setAttribute('href', base + '?' + qsStr);
+      document.querySelectorAll('a[href*="admin.html"], a[href*="index.html"]').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        var parts = href.split('#');
+        var pathPart = parts[0].split('?')[0];
+        var hashPart = parts[1] ? '#' + parts[1] : '';
+        a.setAttribute('href', pathPart + '?' + qsStr + hashPart);
       });
     }
   }

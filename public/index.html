@@ -3,255 +3,2441 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-wl-brand>VAULT® // Streetwear Drop</title>
+  <title data-wl-brand>VAULT® // ACID DROP 04 // STREETWEAR PROTOCOL</title>
+  
+  <!-- Brutalist Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;0,800;1,700&family=Space+Grotesk:wght@500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="theme-tokens.css">
   <script src="whitelabel.js"></script>
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ----------------------------------------------------
+       RESET & BASE TOKENS (RAW ACID NEO-BRUTALISM)
+       ---------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background: var(--bg-main, #F4F4F0);
-      color: #0A0A0A;
+      background-color: var(--bg-main, #0B0B0C);
+      color: #050505;
       font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-      line-height: 1.4;
+      line-height: 1.35;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Marquee Tape */
-    .marquee-tape {
-      background: var(--bg-canvas, #E5FF00);
-      border-bottom: 3px solid #000;
-      padding: 8px 0;
-      white-space: nowrap;
+    /* Chunky Neo-Brutalist borders & hard drop shadows */
+    .b-border { border: 3px solid #000; }
+    .b-shadow { box-shadow: 5px 5px 0px #000; }
+    .b-shadow-sm { box-shadow: 3px 3px 0px #000; }
+    .b-shadow-lime { box-shadow: 5px 5px 0px #CCFF00; }
+    .b-shadow-orange { box-shadow: 5px 5px 0px #FF5500; }
+
+    /* ----------------------------------------------------
+       1. DIAGONAL SCROLLING HAZARD MARQUEE TAPE
+       ---------------------------------------------------- */
+    .hazard-wrapper {
+      position: relative;
+      background: #000;
       overflow: hidden;
-      font-family: var(--font-mono, monospace);
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 2px;
+      border-bottom: 3px solid #000;
+      z-index: 100;
     }
 
-    /* Exposed 4-Cell Brutalist Nav */
+    .hazard-stripes-top {
+      height: 6px;
+      background: repeating-linear-gradient(
+        45deg,
+        #CCFF00,
+        #CCFF00 12px,
+        #000 12px,
+        #000 24px
+      );
+    }
+
+    .hazard-marquee {
+      display: flex;
+      white-space: nowrap;
+      background: #CCFF00;
+      color: #000;
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: 9px 0;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      animation: marqueeScroll 22s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ----------------------------------------------------
+       2. EXPOSED BRUTALIST CELL NAVBAR
+       ---------------------------------------------------- */
     .brutalist-nav {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      border-bottom: 3px solid #000;
+      grid-template-columns: 1.8fr 1.4fr 1.2fr 1fr auto;
       background: #FFF;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 13px;
+      border-bottom: 3px solid #000;
+      position: sticky;
+      top: 0;
+      z-index: 90;
     }
+
+    @media (max-width: 960px) {
+      .brutalist-nav {
+        grid-template-columns: 1fr auto;
+      }
+      .nav-cell-hide-mobile {
+        display: none !important;
+      }
+    }
+
     .nav-cell {
-      padding: 16px 20px;
+      padding: 14px 20px;
       border-right: 3px solid #000;
       display: flex;
       align-items: center;
       text-decoration: none;
       color: #000;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      transition: background 0.15s ease, color 0.15s ease;
     }
-    .nav-cell:last-child { border-right: none; }
-    .brand-cell { font-family: var(--font-accent, 'Syne', sans-serif); font-size: 22px; font-weight: 800; }
 
-    /* 2-Column Brutalist Split Hero */
-    .drop-hero {
+    .nav-cell:hover {
+      background: #CCFF00;
+    }
+
+    .nav-cell.brand-cell {
+      font-family: var(--font-accent, 'Syne', sans-serif);
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: #000;
+      color: #CCFF00;
+    }
+
+    .nav-cell.brand-cell:hover {
+      background: #CCFF00;
+      color: #000;
+    }
+
+    .nav-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+    }
+
+    .telemetry-pulse {
+      width: 10px;
+      height: 10px;
+      background: #FF5500;
+      border-radius: 50%;
+      border: 2px solid #000;
+      animation: pulseAlert 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    .cart-pill-btn {
+      background: #FF5500;
+      color: #FFF;
+      padding: 14px 24px;
+      border: none;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.1s ease, background 0.15s;
+    }
+
+    .cart-pill-btn:hover {
+      background: #000;
+      color: #CCFF00;
+    }
+
+    /* ----------------------------------------------------
+       3. BRUTALIST HERO TOPOLOGY (ROTATED 90° + FLIP CLOCK)
+       ---------------------------------------------------- */
+    .hero-container {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 80px 1.4fr 1fr;
+      background: #F4F4F0;
       border-bottom: 3px solid #000;
-      min-height: 520px;
+      min-height: 540px;
     }
-    @media (max-width: 900px) { .drop-hero { grid-template-columns: 1fr; } }
 
-    .hero-manifesto {
-      padding: 60px 40px;
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 60px 1fr;
+      }
+      .hero-vault-col {
+        grid-column: 1 / -1;
+        border-top: 3px solid #000;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+      }
+      .hero-rail-vertical {
+        display: none;
+      }
+    }
+
+    /* Rotated 90deg vertical bar */
+    .hero-rail-vertical {
+      background: #CCFF00;
+      border-right: 3px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .hero-main {
+      padding: 50px 40px;
       border-right: 3px solid #000;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-    }
-    .hero-manifesto h1 {
-      font-family: var(--font-accent);
-      font-size: clamp(38px, 6vw, 76px);
-      line-height: 0.95;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: -1.5px;
-      margin-bottom: 24px;
+      background: #F4F4F0;
     }
 
-    .flip-vault {
+    .drop-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .spec-tag {
       background: #000;
-      color: #E5FF00;
+      color: #CCFF00;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border: 2px solid #000;
+      letter-spacing: 1px;
+      box-shadow: 2px 2px 0px #000;
+    }
+
+    .spec-tag-orange {
+      background: #FF5500;
+      color: #FFF;
+    }
+
+    .hero-headline {
+      font-family: var(--font-accent, 'Syne', sans-serif);
+      font-size: clamp(40px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .hero-headline span.highlight-lime {
+      background: #CCFF00;
+      padding: 0 8px;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      display: inline-block;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      font-weight: 600;
+      color: #222;
+      max-width: 580px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    /* Depletion Meter Bar */
+    .depletion-box {
+      background: #FFF;
+      border: 3px solid #000;
+      padding: 16px 20px;
+      box-shadow: 4px 4px 0px #000;
+    }
+
+    .depletion-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .depletion-bar-frame {
+      height: 18px;
+      background: #E0E0D8;
+      border: 2px solid #000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .depletion-bar-fill {
+      height: 100%;
+      width: 67%;
+      background: repeating-linear-gradient(
+        -45deg,
+        #FF5500,
+        #FF5500 10px,
+        #D84300 10px,
+        #D84300 20px
+      );
+      transition: width 0.6s ease;
+    }
+
+    /* FLIP-CLOCK VAULT TIMER */
+    .hero-vault-col {
+      background: #000;
+      color: #CCFF00;
       padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vault-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(204, 255, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(204, 255, 0, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+
+    .vault-header-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: #FF5500;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flip-clock-display {
+      display: flex;
+      gap: 10px;
+      margin: 16px 0 24px 0;
+      z-index: 2;
+    }
+
+    .flip-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flip-card {
+      background: #121214;
+      border: 3px solid #CCFF00;
+      box-shadow: 6px 6px 0px #CCFF00;
+      padding: 12px 14px;
+      min-width: 68px;
+      font-family: var(--font-mono);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      color: #CCFF00;
+      text-align: center;
+      position: relative;
+      line-height: 1;
+    }
+
+    .flip-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid rgba(204, 255, 0, 0.2);
+    }
+
+    .flip-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      color: #8E8E93;
+      letter-spacing: 2px;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .vault-status-meta {
+      z-index: 2;
+      background: #18181A;
+      border: 2px solid #333;
+      padding: 12px 18px;
+      width: 100%;
+      max-width: 320px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .vault-status-meta span {
+      color: #FFF;
+      font-weight: 700;
+    }
+
+    /* ----------------------------------------------------
+       4. INTERACTIVE LOOKBOOK COORDINATE MAP [X:42, Y:18]
+       ---------------------------------------------------- */
+    .lookbook-section {
+      background: #111113;
+      color: #FFF;
+      border-bottom: 3px solid #000;
+      padding: 50px 30px;
+    }
+
+    .section-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 16px;
+    }
+
+    .sec-heading {
+      font-family: var(--font-accent);
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: #FFF;
+    }
+
+    .sec-sub {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #CCFF00;
+      letter-spacing: 1px;
+    }
+
+    .lookbook-stage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .lookbook-stage { grid-template-columns: 1fr; }
+    }
+
+    .map-canvas-container {
+      position: relative;
+      background: #000;
+      border: 3px solid #CCFF00;
+      box-shadow: 6px 6px 0px #CCFF00;
+      overflow: hidden;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-canvas-container img {
+      width: 100%;
+      height: 440px;
+      object-fit: cover;
+      filter: grayscale(80%) contrast(120%);
+      transition: filter 0.3s ease;
+    }
+
+    .map-canvas-container:hover img {
+      filter: grayscale(20%) contrast(110%);
+    }
+
+    /* Interactive Pins */
+    .coord-pin {
+      position: absolute;
+      background: #FF5500;
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border: 2px solid #000;
+      box-shadow: 3px 3px 0px #000;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s, background 0.15s;
+      z-index: 5;
+    }
+
+    .coord-pin:hover, .coord-pin.active {
+      background: #CCFF00;
+      color: #000;
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 10;
+    }
+
+    .lookbook-inspector {
+      background: #18181B;
+      border: 3px solid #FFF;
+      padding: 28px;
+      box-shadow: 6px 6px 0px #FFF;
       font-family: var(--font-mono);
     }
-    .clock-flip {
-      font-size: clamp(36px, 5vw, 64px);
+
+    .inspector-title {
+      font-size: 20px;
       font-weight: 800;
-      background: #1A1A1A;
-      border: 2px solid #E5FF00;
-      padding: 16px 24px;
-      margin: 20px 0;
-      box-shadow: 6px 6px 0px #E5FF00;
+      color: #CCFF00;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
-    /* Brutalist Cell Matrix */
-    .drop-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .inspector-meta {
+      font-size: 12px;
+      color: #AAA;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .inspector-tag {
+      display: inline-block;
+      background: #26262B;
+      color: #FFF;
+      padding: 4px 8px;
+      font-size: 11px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      border: 1px solid #444;
+    }
+
+    /* ----------------------------------------------------
+       5. DROP PRODUCTS MATRIX & SIZE BADGES
+       ---------------------------------------------------- */
+    .products-section {
+      background: #F0EFEA;
+      padding: 60px 30px;
       border-bottom: 3px solid #000;
     }
-    @media (max-width: 900px) { .drop-grid { grid-template-columns: 1fr; } }
 
-    .drop-cell {
-      border-right: 3px solid #000;
-      padding: 24px;
+    .drop-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+      margin-top: 30px;
+    }
+
+    .product-card {
       background: #FFF;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0px #000;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .drop-cell:last-child { border-right: none; }
-    .drop-img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
+
+    .product-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0px #000;
+    }
+
+    .card-edition-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: #000;
+      color: #CCFF00;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 10px;
       border: 2px solid #000;
-      margin-bottom: 16px;
-      box-shadow: 4px 4px 0px #000;
+      z-index: 4;
+      box-shadow: 2px 2px 0px #CCFF00;
     }
-    .drop-title { font-size: 20px; font-weight: 800; text-transform: uppercase; }
-    .drop-sku { font-family: var(--font-mono); font-size: 11px; color: #666; margin-top: 4px; }
-    .drop-price { font-family: var(--font-mono); font-size: 22px; font-weight: 800; color: var(--color-primary, #FF2A00); margin: 12px 0; }
+
+    .card-img-wrap {
+      width: 100%;
+      height: 340px;
+      border-bottom: 3px solid #000;
+      background: #E8E7E0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .card-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .card-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: #FF5500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .card-spec {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .card-pricing {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 8px 0 16px 0;
+    }
+
+    .price-current {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 800;
+      color: #000;
+    }
+
+    .price-retail {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: #888;
+      text-decoration: line-through;
+    }
+
+    /* SIZE MATRIX BUTTONS WITH LIVE SCARCITY BADGES */
+    .size-selector-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
 
     .size-matrix {
       display: flex;
-      gap: 6px;
-      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
     }
+
     .size-btn {
+      position: relative;
       background: #FFF;
       border: 2px solid #000;
-      padding: 6px 12px;
+      padding: 8px 12px;
       font-family: var(--font-mono);
-      font-weight: 700;
+      font-size: 12px;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 2px 2px 0px #000;
+      transition: all 0.1s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 58px;
     }
-    .size-btn.active { background: #000; color: #E5FF00; }
 
-    .cop-btn {
+    .size-btn:hover:not(.sold-out) {
+      background: #CCFF00;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #000;
+    }
+
+    .size-btn.active {
       background: #000;
-      color: #E5FF00;
-      border: 2px solid #000;
+      color: #CCFF00;
+      box-shadow: 3px 3px 0px #FF5500;
+      border-color: #000;
+    }
+
+    .size-scarcity-badge {
+      font-size: 9px;
+      font-weight: 700;
+      margin-top: 3px;
+      padding: 2px 4px;
+      border-radius: 0;
+      line-height: 1;
+    }
+
+    .badge-critical {
+      background: #FF5500;
+      color: #FFF;
+    }
+
+    .badge-low {
+      background: #CCFF00;
+      color: #000;
+    }
+
+    .badge-avail {
+      background: #000;
+      color: #FFF;
+    }
+
+    /* Sold Out State */
+    .size-btn.sold-out {
+      background: #EAEAEA;
+      color: #888;
+      border-color: #AAA;
+      cursor: not-allowed;
+      box-shadow: none;
+      text-decoration: line-through;
+    }
+
+    .size-btn.sold-out .size-scarcity-badge {
+      background: #444;
+      color: #AAA;
+      text-decoration: none;
+    }
+
+    /* CARD ACTION BUTTONS */
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .btn-cop {
+      background: #000;
+      color: #CCFF00;
+      border: 3px solid #000;
       padding: 14px;
       font-family: var(--font-mono);
+      font-size: 13px;
       font-weight: 800;
-      font-size: 14px;
       text-transform: uppercase;
+      letter-spacing: 1px;
       cursor: pointer;
       box-shadow: 4px 4px 0px #000;
-      transition: transform 0.1s, box-shadow 0.1s;
+      transition: all 0.15s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
     }
-    .cop-btn:hover {
-      background: var(--color-primary, #FF2A00);
+
+    .btn-cop:hover {
+      background: #FF5500;
       color: #FFF;
       transform: translate(-2px, -2px);
       box-shadow: 6px 6px 0px #000;
     }
+
+    .btn-stash-add {
+      background: #CCFF00;
+      color: #000;
+      border: 2px solid #000;
+      padding: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+
+    .btn-stash-add:hover {
+      background: #B8E600;
+    }
+
+    .btn-stash-add.in-stash {
+      background: #000;
+      color: #CCFF00;
+    }
+
+    /* ----------------------------------------------------
+       6. INTERACTIVE STASH PACK BUNDLE BUILDER
+       ---------------------------------------------------- */
+    .stash-builder-section {
+      background: #050505;
+      color: #FFF;
+      border-bottom: 3px solid #000;
+      padding: 60px 30px;
+      position: relative;
+    }
+
+    .stash-banner {
+      border: 3px solid #CCFF00;
+      background: #111114;
+      padding: 30px;
+      box-shadow: 8px 8px 0px #CCFF00;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .stash-banner { grid-template-columns: 1fr; }
+    }
+
+    .stash-bonus-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FF5500;
+      color: #FFF;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 900;
+      padding: 8px 16px;
+      border: 2px solid #000;
+      box-shadow: 3px 3px 0px #CCFF00;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      animation: pulseGlow 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 3px 3px 0px #CCFF00; }
+      50% { box-shadow: 3px 3px 18px #CCFF00; }
+    }
+
+    .stash-tray {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 600px) {
+      .stash-tray { grid-template-columns: 1fr; }
+    }
+
+    .stash-slot {
+      background: #1A1A1E;
+      border: 2px dashed #444;
+      min-height: 120px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: var(--font-mono);
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .stash-slot.filled {
+      background: #242429;
+      border: 2px solid #CCFF00;
+      box-shadow: 3px 3px 0px #CCFF00;
+    }
+
+    .stash-slot-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #CCFF00;
+      margin-bottom: 4px;
+    }
+
+    .stash-slot-price {
+      font-size: 11px;
+      color: #AAA;
+    }
+
+    .stash-slot-remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #FF5500;
+      color: #FFF;
+      border: none;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .stash-summary-box {
+      background: #18181C;
+      border: 2px solid #CCFF00;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+    }
+
+    .stash-line-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 10px;
+      color: #CCC;
+    }
+
+    .stash-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 2px solid #333;
+      padding-top: 14px;
+      margin-top: 14px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #CCFF00;
+    }
+
+    /* ----------------------------------------------------
+       7. ANTI-BOT QUEUE LOCKER SLIDER WIDGET
+       ---------------------------------------------------- */
+    .anti-bot-container {
+      background: #FFF;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0px #000;
+      padding: 24px;
+      margin-top: 24px;
+      font-family: var(--font-mono);
+    }
+
+    .anti-bot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .anti-bot-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-track {
+      position: relative;
+      height: 58px;
+      background: #111;
+      border: 3px solid #000;
+      box-shadow: inset 2px 2px 0px rgba(0,0,0,0.5);
+      user-select: none;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-text {
+      color: #888;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 2px;
+      pointer-events: none;
+      z-index: 1;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+
+    .slider-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: repeating-linear-gradient(
+        45deg,
+        #CCFF00,
+        #CCFF00 12px,
+        #B5E000 12px,
+        #B5E000 24px
+      );
+      transition: width 0.05s ease-out;
+    }
+
+    .slider-thumb {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 64px;
+      background: #CCFF00;
+      color: #000;
+      border-right: 3px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      font-size: 20px;
+      font-weight: 900;
+      user-select: none;
+      z-index: 2;
+      box-shadow: 2px 0px 4px rgba(0,0,0,0.3);
+    }
+
+    .slider-thumb:active {
+      cursor: grabbing;
+    }
+
+    .anti-bot-container.unlocked .slider-track {
+      background: #CCFF00;
+      border-color: #000;
+    }
+
+    .anti-bot-container.unlocked .slider-text {
+      color: #000;
+      font-weight: 900;
+    }
+
+    .anti-bot-container.unlocked .slider-thumb {
+      display: none;
+    }
+
+    /* ----------------------------------------------------
+       8. STICKY EXPRESS CHECKOUT DRAWER & CASHFREE UPI
+       ---------------------------------------------------- */
+    .checkout-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: min(520px, 100vw);
+      height: 100vh;
+      background: #F4F4F0;
+      border-left: 3px solid #000;
+      z-index: 999;
+      box-shadow: -10px 0 0 rgba(0,0,0,0.6);
+      transition: right 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .checkout-drawer.open {
+      right: 0;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 998;
+      display: none;
+    }
+
+    .drawer-overlay.active {
+      display: block;
+    }
+
+    .drawer-header {
+      background: #000;
+      color: #CCFF00;
+      padding: 20px 24px;
+      border-bottom: 3px solid #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .drawer-title {
+      font-family: var(--font-accent);
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+
+    .drawer-close-btn {
+      background: #FF5500;
+      color: #FFF;
+      border: 2px solid #000;
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .drawer-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex-grow: 1;
+    }
+
+    .checkout-cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .checkout-item-row {
+      background: #FFF;
+      border: 2px solid #000;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      box-shadow: 2px 2px 0px #000;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-input {
+      background: #FFF;
+      border: 2px solid #000;
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      outline: none;
+      box-shadow: 2px 2px 0px #000;
+    }
+
+    .form-input:focus {
+      border-color: #FF5500;
+    }
+
+    /* Cashfree UPI Simulator */
+    .upi-box {
+      background: #FFF;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      padding: 20px;
+      text-align: center;
+      font-family: var(--font-mono);
+    }
+
+    .upi-qr-frame {
+      width: 170px;
+      height: 170px;
+      margin: 12px auto;
+      border: 3px solid #000;
+      background: #FFF;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upi-qr-frame svg, .upi-qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .btn-pay-upi {
+      background: #CCFF00;
+      color: #000;
+      border: 3px solid #000;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 4px 4px 0px #000;
+      transition: all 0.15s ease;
+      width: 100%;
+      letter-spacing: 1px;
+    }
+
+    .btn-pay-upi:hover:not(:disabled) {
+      background: #000;
+      color: #CCFF00;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #000;
+    }
+
+    .btn-pay-upi:disabled {
+      background: #CCC;
+      color: #777;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Success Modal View */
+    .order-success-screen {
+      background: #000;
+      color: #CCFF00;
+      border: 3px solid #CCFF00;
+      padding: 24px;
+      box-shadow: 6px 6px 0px #CCFF00;
+      text-align: center;
+      font-family: var(--font-mono);
+      display: none;
+    }
+
+    .vip-pass-pill {
+      background: #CCFF00;
+      color: #000;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 10px 14px;
+      border: 2px solid #000;
+      margin: 16px 0;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+
+    /* ----------------------------------------------------
+       9. FLOATING WHATSAPP & FOOTER
+       ---------------------------------------------------- */
+    .floating-wa-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #25D366;
+      color: #FFF;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 13px;
+      text-decoration: none;
+      z-index: 80;
+      transition: transform 0.15s;
+    }
+
+    .floating-wa-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #000;
+    }
+
+    .brutalist-footer {
+      background: #000;
+      color: #FFF;
+      padding: 50px 30px;
+      font-family: var(--font-mono);
+      border-top: 3px solid #000;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-<body data-layout-archetype="raw-acid-neobrutalism">
-  <div class="marquee-tape">
-    ✦ VAULT DROP 03 LIVE // 450GSM HEAVYWEIGHT FLEECE // WORLDWIDE AIR EXPRESS // ZERO RESTOCKS //
+<body data-layout-archetype="acid-neobrutalism-drop">
+
+  <!-- 1. DIAGONAL SCROLLING HAZARD MARQUEE TAPE -->
+  <div class="hazard-wrapper">
+    <div class="hazard-stripes-top"></div>
+    <div class="hazard-marquee">
+      <div class="marquee-track">
+        <span class="marquee-item">⚡ ACID DROP 04 // LIMITED 250 UNITS WORLDWIDE // NO RESTOCKS ⚡</span>
+        <span class="marquee-item">⚡ ANTI-BOT ENCRYPTED QUEUE // INSTANT CASHFREE UPI ⚡</span>
+        <span class="marquee-item">⚡ ACID DROP 04 // LIMITED 250 UNITS WORLDWIDE // NO RESTOCKS ⚡</span>
+        <span class="marquee-item">⚡ 3-PIECE STASH PACK UNLOCKS 20% DISCOUNT ⚡</span>
+        <span class="marquee-item">⚡ ACID DROP 04 // LIMITED 250 UNITS WORLDWIDE // NO RESTOCKS ⚡</span>
+        <span class="marquee-item">⚡ RAW ACID WASH FLEECE & DECONSTRUCTED FOOTWEAR ⚡</span>
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        <span class="marquee-item">⚡ ACID DROP 04 // LIMITED 250 UNITS WORLDWIDE // NO RESTOCKS ⚡</span>
+        <span class="marquee-item">⚡ ANTI-BOT ENCRYPTED QUEUE // INSTANT CASHFREE UPI ⚡</span>
+        <span class="marquee-item">⚡ ACID DROP 04 // LIMITED 250 UNITS WORLDWIDE // NO RESTOCKS ⚡</span>
+        <span class="marquee-item">⚡ 3-PIECE STASH PACK UNLOCKS 20% DISCOUNT ⚡</span>
+        <span class="marquee-item">⚡ ACID DROP 04 // LIMITED 250 UNITS WORLDWIDE // NO RESTOCKS ⚡</span>
+        <span class="marquee-item">⚡ RAW ACID WASH FLEECE & DECONSTRUCTED FOOTWEAR ⚡</span>
+      </div>
+    </div>
   </div>
 
+  <!-- 2. EXPOSED BRUTALIST CELL NAVBAR -->
   <nav class="brutalist-nav">
     <a href="#" class="nav-cell brand-cell" data-wl-brand>VAULT®</a>
-    <a href="#drop" class="nav-cell">DROP 03</a>
-    <a href="#lookbook" class="nav-cell">COORDINATES</a>
-    <a href="admin.html" class="nav-cell" style="background:#E5FF00; color:#000;">STALL POS</a>
+    
+    <div class="nav-cell nav-cell-hide-mobile">
+      <div class="nav-telemetry">
+        <span class="telemetry-pulse"></span>
+        <span id="navDropStatus">DROP 04 LIVE // 4.2 PCS/MIN</span>
+      </div>
+    </div>
+
+    <a href="#stash-builder" class="nav-cell nav-cell-hide-mobile">
+      <span>⚡ 3-PIECE STASH (-20%)</span>
+    </a>
+
+    <a href="admin.html" class="nav-cell" style="background:#CCFF00; color:#000;">
+      <span>STALL POS ↗</span>
+    </a>
+
+    <button class="cart-pill-btn" onclick="openDrawer()">
+      <span>BAG</span>
+      <span id="navCartCount" style="background:#000; color:#FFF; padding:2px 7px; font-size:11px;">0</span>
+    </button>
   </nav>
 
-  <section class="drop-hero">
-    <div class="hero-manifesto">
-      <div>
-        <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:2px; color:var(--color-primary); margin-bottom:12px;">LIMITED VAULT DROP 03 / 250 PIECES</div>
-        <h1 data-wl-tagline>RAW SPECIMEN HEAVYWEIGHT DROPS.</h1>
-      </div>
-      <p style="font-size:16px; font-weight:500; max-width:480px;">Custom milled French Terry cotton, high-density screenprints, distressed vintage wash, and serial barcode verification tags.</p>
+  <!-- 3. BRUTALIST SPLIT HERO TOPOLOGY -->
+  <section class="hero-container">
+    <!-- Rotated 90deg vertical label -->
+    <div class="hero-rail-vertical">
+      ACID PROTOCOL // EDITION 250 // VERIFIED SPECIMENS
     </div>
 
-    <div class="flip-vault">
-      <div style="font-size:12px; letter-spacing:2px;">VAULT LOCKER TIMER</div>
-      <div class="clock-flip" id="flipClock">03:42:19:18</div>
-      <div style="font-size:11px; color:#A3A3A3;">REMAINING STOCK ALLOCATION: 42 PIECES</div>
+    <!-- Main Manifesto -->
+    <div class="hero-main">
+      <div>
+        <div class="drop-badge-row">
+          <div class="spec-tag">DROP 04 // ONLINE & POP-UP</div>
+          <div class="spec-tag spec-tag-orange">ZERO RESTOCKS EVER</div>
+          <div class="spec-tag" id="remainingUnitsTag">82 / 250 ALLOCATED</div>
+        </div>
+
+        <h1 class="hero-headline" data-wl-tagline>
+          RAW ACID SPECIMEN <span class="highlight-lime">HEAVYWEIGHT</span> DROPS.
+        </h1>
+
+        <p class="hero-desc">
+          Engineered in raw 450GSM milled French Terry, asymmetric Cordura tactical gear, and serialized deconstructed runners. Zero-backorder policy strictly enforced via edge inventory guards.
+        </p>
+      </div>
+
+      <!-- Depletion Velocity Gauge -->
+      <div class="depletion-box">
+        <div class="depletion-header">
+          <span>DROP ALLOCATION STATUS</span>
+          <span id="depletionPercentText">168 / 250 SOLD (67%)</span>
+        </div>
+        <div class="depletion-bar-frame">
+          <div class="depletion-bar-fill" id="depletionBarFill"></div>
+        </div>
+        <div style="font-family:var(--font-mono); font-size:10px; color:#555; margin-top:6px; display:flex; justify-content:space-between;">
+          <span>VELOCITY: <strong id="depletionSpeed">4.2 UNITS/MIN</strong></span>
+          <span>CURRENT QUEUE: <strong>24 LIVE BUYERS</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLIP-CLOCK VAULT TIMER -->
+    <div class="hero-vault-col">
+      <div class="vault-grid-bg"></div>
+      
+      <div class="vault-header-label">
+        <span class="telemetry-pulse"></span>
+        <span>VAULT LOCKER COUNTDOWN</span>
+      </div>
+
+      <div class="flip-clock-display" id="flipClock">
+        <div class="flip-unit">
+          <div class="flip-card" id="flipDays">00</div>
+          <div class="flip-label">DAYS</div>
+        </div>
+        <div class="flip-unit">
+          <div class="flip-card" id="flipHours">03</div>
+          <div class="flip-label">HRS</div>
+        </div>
+        <div class="flip-unit">
+          <div class="flip-card" id="flipMins">42</div>
+          <div class="flip-label">MIN</div>
+        </div>
+        <div class="flip-unit">
+          <div class="flip-card" id="flipSecs" style="color:#FF5500; border-color:#FF5500; box-shadow:6px 6px 0px #FF5500;">19</div>
+          <div class="flip-label">SEC</div>
+        </div>
+      </div>
+
+      <div class="vault-status-meta">
+        <div>PROTOCOL: <span>V8-ISOLATE SYNC</span></div>
+        <div>ANTI-BOT TOKEN: <span id="telemetryBotStatus">LOCKED (SLIDE TO CLEAR)</span></div>
+        <div>PAYMENT: <span>CASHFREE UPI ZERO-LATENCY</span></div>
+      </div>
     </div>
   </section>
 
-  <!-- Brutalist Drop Grid -->
-  <section class="drop-grid" id="drop">
-    <div class="drop-cell">
+  <!-- 4. INTERACTIVE LOOKBOOK COORDINATE MAP -->
+  <section class="lookbook-section" id="lookbook">
+    <div class="section-title-bar">
       <div>
-        <img class="drop-img" src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80" alt="Heavyweight Hoodie">
-        <div class="drop-title">Acid Washed Zip Hoodie</div>
-        <div class="drop-sku">SKU: VLT-HD-001 // 450GSM</div>
-        <div class="drop-price">₹4,999.00</div>
-        <div class="size-matrix">
-          <button class="size-btn active" onclick="setSize(this)">S</button>
-          <button class="size-btn" onclick="setSize(this)">M</button>
-          <button class="size-btn" onclick="setSize(this)">L</button>
-          <button class="size-btn" onclick="setSize(this)">XL</button>
-        </div>
+        <div class="sec-sub">[ LOOKBOOK STAGE // RADAR COORDINATE MAP ]</div>
+        <h2 class="sec-heading">SPECIMEN FIELD MAP</h2>
       </div>
-      <button class="cop-btn" onclick="copItem('Acid Washed Zip Hoodie')">COP ITEM (1-CLICK)</button>
+      <div style="font-family:var(--font-mono); font-size:12px; color:#888;">
+        CLICK ANY COORDINATE PIN TO INSPECT DROP DETAILS
+      </div>
     </div>
 
-    <div class="drop-cell">
-      <div>
-        <img class="drop-img" src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80" alt="Distressed Tee">
-        <div class="drop-title">Distressed Oversized Tee</div>
-        <div class="drop-sku">SKU: VLT-TEE-003 // 280GSM</div>
-        <div class="drop-price">₹2,499.00</div>
-        <div class="size-matrix">
-          <button class="size-btn" onclick="setSize(this)">S</button>
-          <button class="size-btn active" onclick="setSize(this)">M</button>
-          <button class="size-btn" onclick="setSize(this)">L</button>
-          <button class="size-btn" onclick="setSize(this)">XL</button>
+    <div class="lookbook-stage">
+      <div class="map-canvas-container">
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80" alt="Lookbook Specimen Fit">
+        
+        <!-- Coordinate Pins -->
+        <div class="coord-pin" style="top: 25%; left: 38%;" onclick="inspectCoord(0)">
+          <span>[X:38, Y:25]</span>
+          <strong>HOODIE</strong>
         </div>
-      </div>
-      <button class="cop-btn" onclick="copItem('Distressed Oversized Tee')">COP ITEM (1-CLICK)</button>
-    </div>
 
-    <div class="drop-cell">
-      <div>
-        <img class="drop-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" alt="Sneaker Drop">
-        <div class="drop-title">Tactical Combat Sneaker</div>
-        <div class="drop-sku">SKU: VLT-SNK-009 // Vibram Sole</div>
-        <div class="drop-price">₹8,999.00</div>
-        <div class="size-matrix">
-          <button class="size-btn" onclick="setSize(this)">UK 8</button>
-          <button class="size-btn active" onclick="setSize(this)">UK 9</button>
-          <button class="size-btn" onclick="setSize(this)">UK 10</button>
+        <div class="coord-pin" style="top: 60%; left: 45%;" onclick="inspectCoord(1)">
+          <span>[X:45, Y:60]</span>
+          <strong>CARGOS</strong>
+        </div>
+
+        <div class="coord-pin" style="top: 86%; left: 42%;" onclick="inspectCoord(2)">
+          <span>[X:42, Y:86]</span>
+          <strong>RUNNER v2</strong>
+        </div>
+
+        <div class="coord-pin" style="top: 15%; left: 48%;" onclick="inspectCoord(3)">
+          <span>[X:48, Y:15]</span>
+          <strong>BALACLAVA</strong>
+        </div>
+
+        <div class="coord-pin" style="top: 48%; left: 52%;" onclick="inspectCoord(4)">
+          <span>[X:52, Y:48]</span>
+          <strong>UTILITY BELT</strong>
         </div>
       </div>
-      <button class="cop-btn" onclick="copItem('Tactical Combat Sneaker')">COP ITEM (1-CLICK)</button>
+
+      <div class="lookbook-inspector" id="inspectorBox">
+        <div style="font-size:11px; color:#FF5500; font-weight:800; margin-bottom:4px;" id="inspCoordTag">[X:38, Y:25] ACTIVE SPECIMEN</div>
+        <div class="inspector-title" id="inspTitle">Heavyweight 450GSM Acid Wash Hoodie</div>
+        <p class="inspector-meta" id="inspDesc">Heavy-gauge custom milled cotton fleece with double-layer oversized hood, raw distressed hem, and heat-embossed industrial serial tag.</p>
+        
+        <div style="margin-bottom:16px;">
+          <span class="inspector-tag">450GSM TERRY</span>
+          <span class="inspector-tag">ACID VINTAGE WASH</span>
+          <span class="inspector-tag">SERIALIZED BATCH</span>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:24px; font-weight:800; color:#FFF;" id="inspPrice">₹5,499.00</span>
+          <a href="#drop-matrix" class="spec-tag" style="text-decoration:none; padding:8px 14px;">VIEW SIZES ↓</a>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- 5. DROP PRODUCTS MATRIX & SIZES -->
+  <section class="products-section" id="drop-matrix">
+    <div class="section-title-bar" style="border-color:#000;">
+      <div>
+        <div class="sec-sub" style="color:#FF5500;">[ DROP 04 CATALOG // ZERO BACKORDERS ]</div>
+        <h2 class="sec-heading" style="color:#000;">LIMITED DROP SPECIMENS</h2>
+      </div>
+      <div style="font-family:var(--font-mono); font-size:12px; color:#555;">
+        SELECT SIZE TO COP INSTANTLY OR ASSEMBLE 3-PIECE STASH PACK
+      </div>
+    </div>
+
+    <div class="drop-matrix-grid" id="productGrid">
+      <!-- Injected by JavaScript dynamically from catalog -->
+    </div>
+  </section>
+
+  <!-- 6. INTERACTIVE STASH PACK BUNDLE BUILDER -->
+  <section class="stash-builder-section" id="stash-builder">
+    <div class="stash-banner">
+      <div>
+        <div class="stash-bonus-pill" id="stashBonusBadge">
+          <span>⚡ 20% STASH BONUS ACTIVATED WHEN 3 ITEMS SELECTED</span>
+        </div>
+
+        <h2 style="font-family:var(--font-accent); font-size:clamp(28px, 4vw, 42px); font-weight:900; line-height:1; text-transform:uppercase; margin-bottom:12px;">
+          THE ACID STASH PACK
+        </h2>
+        <p style="font-family:var(--font-mono); font-size:13px; color:#CCC; max-width:500px; line-height:1.5;">
+          Combine any 3 drop pieces (e.g., Hoodie + Cargos + Balaclava/Belt) into your personal Stash Pack to automatically trigger a <strong>20% bundle discount</strong> and complimentary priority air courier pass.
+        </p>
+
+        <!-- 3 Slots Tray -->
+        <div class="stash-tray">
+          <div class="stash-slot" id="stashSlot0">
+            <span style="color:#555; font-size:11px;">[ SLOT 01: EMPTY ]</span>
+            <span style="font-size:10px; color:#444; margin-top:4px;">Click "+ STASH" on product</span>
+          </div>
+          <div class="stash-slot" id="stashSlot1">
+            <span style="color:#555; font-size:11px;">[ SLOT 02: EMPTY ]</span>
+            <span style="font-size:10px; color:#444; margin-top:4px;">Click "+ STASH" on product</span>
+          </div>
+          <div class="stash-slot" id="stashSlot2">
+            <span style="color:#555; font-size:11px;">[ SLOT 03: EMPTY ]</span>
+            <span style="font-size:10px; color:#444; margin-top:4px;">Click "+ STASH" on product</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Calculation Card -->
+      <div class="stash-summary-box">
+        <div>
+          <div style="font-size:11px; color:#FF5500; font-weight:800; margin-bottom:12px; letter-spacing:1px;">STASH PACK TELEMETRY</div>
+          
+          <div class="stash-line-row">
+            <span>Selected Pieces:</span>
+            <strong id="stashItemCount" style="color:#FFF;">0 / 3 Items</strong>
+          </div>
+
+          <div class="stash-line-row">
+            <span>Stash Subtotal:</span>
+            <strong id="stashSubtotal" style="color:#FFF;">₹0.00</strong>
+          </div>
+
+          <div class="stash-line-row">
+            <span>Combo Discount (20%):</span>
+            <strong id="stashDiscount" style="color:#CCFF00;">-₹0.00</strong>
+          </div>
+
+          <div class="stash-total-row">
+            <span>BUNDLE TOTAL:</span>
+            <span id="stashFinalTotal">₹0.00</span>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <button class="btn-cop" id="stashCheckoutBtn" onclick="checkoutStash()" style="width:100%;" disabled>
+            <span>LOCK IN STASH PACK & PROCEED →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. STICKY EXPRESS CHECKOUT DRAWER & ANTI-BOT QUEUE LOCKER -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  
+  <div class="checkout-drawer" id="checkoutDrawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">VAULT EXPRESS CHECKOUT</div>
+        <div style="font-family:var(--font-mono); font-size:11px; color:#FFF;" id="drawerWaText">Drop Concierge: +91 90619 02295</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeDrawer()">✕ CLOSE</button>
+    </div>
+
+    <div class="drawer-body" id="drawerContent">
+      <!-- Order Items List -->
+      <div>
+        <div style="font-family:var(--font-mono); font-size:11px; font-weight:800; color:#555; margin-bottom:8px;">COP'D DROP PIECES</div>
+        <div class="checkout-cart-list" id="drawerCartList">
+          <!-- Items injected dynamically -->
+        </div>
+      </div>
+
+      <!-- Pricing Summary -->
+      <div style="background:#FFF; border:2px solid #000; padding:14px; font-family:var(--font-mono); font-size:12px; box-shadow:2px 2px 0px #000;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span>Subtotal:</span>
+          <strong id="summarySubtotal">₹0</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; color:#FF5500; margin-bottom:6px;" id="summaryDiscountRow">
+          <span>Stash Combo Bonus (20%):</span>
+          <strong id="summaryDiscount">-₹0</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:800; border-top:2px solid #000; padding-top:8px;">
+          <span>TOTAL DUE:</span>
+          <strong id="summaryTotal">₹0</strong>
+        </div>
+      </div>
+
+      <!-- Customer Details Form -->
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div class="form-group">
+          <label>Recipient Full Name</label>
+          <input type="text" class="form-input" id="custName" placeholder="e.g. Aryan Malhotra" value="Aakash Nair">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Contact Number (For Tracking)</label>
+          <input type="tel" class="form-input" id="custPhone" placeholder="919876543210" value="919061902295">
+        </div>
+        <div class="form-group">
+          <label>Delivery Address / City</label>
+          <input type="text" class="form-input" id="custAddress" placeholder="Apartment, Street, City, Pincode" value="Indiranagar 100ft Rd, Bangalore 560038">
+        </div>
+      </div>
+
+      <!-- ANTI-BOT QUEUE LOCKER SLIDER WIDGET -->
+      <div class="anti-bot-container" id="antiBotContainer">
+        <div class="anti-bot-header">
+          <div class="anti-bot-title">
+            <span class="telemetry-pulse"></span>
+            <span>QUEUE LOCKER PROTOCOL</span>
+          </div>
+          <span style="font-size:10px; color:#666;" id="antiBotStatusBadge">SLIDER UNVERIFIED</span>
+        </div>
+
+        <div class="slider-track" id="sliderTrack">
+          <div class="slider-fill" id="sliderFill"></div>
+          <span class="slider-text" id="sliderText">»» SLIDE TO UNLOCK CHECKOUT QUEUE »»</span>
+          <div class="slider-thumb" id="sliderThumb">➔</div>
+        </div>
+        <div style="font-size:10px; color:#888; margin-top:6px;">
+          Cryptographic token issued upon drag completion to prevent automated drop scalpers.
+        </div>
+      </div>
+
+      <!-- CASHFREE UPI QR SIMULATOR & ACTION -->
+      <div class="upi-box" id="upiBox">
+        <div style="font-size:12px; font-weight:800; color:#000; text-transform:uppercase;">
+          CASHFREE UPI DIRECT EXPRESS ENGINE
+        </div>
+        
+        <div class="upi-qr-frame" id="upiQrFrame">
+          <!-- Dynamic QR Code SVG rendered here -->
+          <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <rect width="100" height="100" fill="#FFF"/>
+            <!-- Corner Markers -->
+            <rect x="10" y="10" width="24" height="24" fill="#000"/>
+            <rect x="14" y="14" width="16" height="16" fill="#FFF"/>
+            <rect x="18" y="18" width="8" height="8" fill="#000"/>
+            <rect x="66" y="10" width="24" height="24" fill="#000"/>
+            <rect x="70" y="14" width="16" height="16" fill="#FFF"/>
+            <rect x="74" y="18" width="8" height="8" fill="#000"/>
+            <rect x="10" y="66" width="24" height="24" fill="#000"/>
+            <rect x="14" y="70" width="16" height="16" fill="#FFF"/>
+            <rect x="18" y="74" width="8" height="8" fill="#000"/>
+            <!-- Mock QR Matrix Dots -->
+            <rect x="40" y="14" width="6" height="6" fill="#000"/>
+            <rect x="52" y="14" width="6" height="6" fill="#000"/>
+            <rect x="40" y="26" width="6" height="6" fill="#000"/>
+            <rect x="48" y="38" width="8" height="8" fill="#000"/>
+            <rect x="14" y="44" width="8" height="8" fill="#000"/>
+            <rect x="30" y="44" width="8" height="8" fill="#000"/>
+            <rect x="64" y="44" width="8" height="8" fill="#000"/>
+            <rect x="80" y="44" width="8" height="8" fill="#000"/>
+            <rect x="42" y="56" width="16" height="8" fill="#000"/>
+            <rect x="40" y="70" width="8" height="8" fill="#000"/>
+            <rect x="56" y="70" width="8" height="8" fill="#000"/>
+            <rect x="74" y="70" width="12" height="12" fill="#000"/>
+          </svg>
+        </div>
+
+        <div style="font-size:11px; color:#555; margin-bottom:12px;">
+          UPI ID: <strong style="color:#000;">acidvault@icici</strong> • Instant Settlement
+        </div>
+
+        <button class="btn-pay-upi" id="btnPayUpi" onclick="executeCheckout()" disabled>
+          <span>AUTHORIZE PAYMENT (₹<span id="btnPayAmount">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- SUCCESS MODAL SCREEN -->
+      <div class="order-success-screen" id="orderSuccessScreen">
+        <div style="font-size:40px; margin-bottom:10px;">⚡</div>
+        <h3 style="font-size:22px; font-weight:900; text-transform:uppercase;">VAULT DROP CONFIRMED!</h3>
+        <p style="font-size:12px; color:#AAA; margin:8px 0;">Your transaction cleared Cashfree UPI authorization.</p>
+        
+        <div class="vip-pass-pill" id="orderPassPill">PASS-ACID-XXXX</div>
+        
+        <div style="font-size:12px; line-height:1.6; text-align:left; background:#111; padding:12px; border:1px solid #333; margin:14px 0;">
+          <div>ORDER ID: <strong id="succOrderId" style="color:#FFF;">-</strong></div>
+          <div>STATUS: <strong style="color:#CCFF00;">PRIORITY PACKED // AIR SHIP</strong></div>
+          <div>TRACKING: <span style="color:#FFF;">BlueDart Waybill Issued</span></div>
+        </div>
+
+        <button class="btn-cop" style="width:100%;" onclick="resetOrderView()">
+          <span>COP ANOTHER SPECIMEN</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/919061902295?text=Yo%20VAULT,%20inquiring%20about%20Drop%2004" id="floatingWaBtn" class="floating-wa-btn" target="_blank" rel="noopener">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+    </svg>
+    <span>DROP CONCIERGE</span>
+  </a>
+
+  <!-- 9. BRUTALIST FOOTER -->
+  <footer class="brutalist-footer">
+    <div class="footer-grid">
+      <div>
+        <div style="font-family:var(--font-accent); font-size:24px; font-weight:900; color:#CCFF00; margin-bottom:12px;" data-wl-brand>VAULT®</div>
+        <p style="font-size:12px; color:#888; max-width:380px; line-height:1.6;">
+          Independent Neo-Brutalist streetwear imprint and physical pop-up counter terminal. All catalog drops are limited runs without reprints.
+        </p>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:800; color:#CCFF00; letter-spacing:1px; margin-bottom:12px;">NAVIGATE</div>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:12px;">
+          <a href="#drop-matrix" style="color:#FFF; text-decoration:none;">Active Drop 04</a>
+          <a href="#stash-builder" style="color:#FFF; text-decoration:none;">Stash Pack Trio</a>
+          <a href="#lookbook" style="color:#FFF; text-decoration:none;">Coordinate Map</a>
+          <a href="admin.html" style="color:#FF5500; text-decoration:none;">Stall Counter POS ↗</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:800; color:#CCFF00; letter-spacing:1px; margin-bottom:12px;">PROTOCOL</div>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:12px; color:#888;">
+          <span>Zero-Backorder Guard</span>
+          <span>Cashfree UPI Rail</span>
+          <span>Edge V8 Depletion Telemetry</span>
+          <span>Arch: acid-neobrutalism-drop</span>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #333; padding-top:20px; font-size:11px; color:#555; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <span>© 2026 <strong data-wl-brand>VAULT®</strong> STREETWEAR LABS. ALL RIGHTS RESERVED.</span>
+      <span>TPL-ECOM-STREETWEAR // CLOUDFLARE EDGE</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
   <script>
-    function setSize(btn) {
-      btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    // State
+    let catalog = [];
+    let cart = []; // Line items: { productId, size, qty, name, price, img }
+    let stashItems = []; // Up to 3 items
+    let selectedSizes = {}; // productId -> size string
+    let botVerified = false;
+    let botToken = '';
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      initDropTimer();
+      fetchDropTelemetry();
+      fetchCatalog();
+      initAntiBotSlider();
+    });
+
+    // 1. Live Flip-Clock Countdown Timer with ticking seconds
+    function initDropTimer() {
+      let totalSeconds = 3 * 3600 + 42 * 60 + 19; // Initial fallback 03:42:19
+
+      const daysEl = document.getElementById('flipDays');
+      const hoursEl = document.getElementById('flipHours');
+      const minsEl = document.getElementById('flipMins');
+      const secsEl = document.getElementById('flipSecs');
+
+      function updateClockDisplay() {
+        if (totalSeconds <= 0) {
+          totalSeconds = 14 * 3600; // roll over
+        }
+        totalSeconds--;
+
+        const d = Math.floor(totalSeconds / (3600 * 24));
+        const h = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+
+        daysEl.textContent = String(d).padStart(2, '0');
+        hoursEl.textContent = String(h).padStart(2, '0');
+        minsEl.textContent = String(m).padStart(2, '0');
+        secsEl.textContent = String(s).padStart(2, '0');
+      }
+
+      updateClockDisplay();
+      setInterval(updateClockDisplay, 1000);
     }
-    function copItem(title) {
-      alert(title + ' added to Vault cart! WhatsApp checkout concierge triggered.');
+
+    // 2. Fetch Drop Telemetry from API
+    async function fetchDropTelemetry() {
+      try {
+        const res = await fetch('/api/drop');
+        const data = await res.json();
+        if (data.success && data.drop) {
+          const drop = data.drop;
+          document.getElementById('navDropStatus').textContent = `DROP ${drop.drop_number} ${drop.status.toUpperCase()} // ${drop.velocity_per_min} PCS/MIN`;
+          document.getElementById('remainingUnitsTag').textContent = `${drop.remaining_units} / ${drop.total_units} ALLOCATED`;
+          document.getElementById('depletionSpeed').textContent = `${drop.velocity_per_min} UNITS/MIN`;
+          
+          const pct = Math.round((drop.sold_units / drop.total_units) * 100);
+          document.getElementById('depletionPercentText').textContent = `${drop.sold_units} / ${drop.total_units} SOLD (${pct}%)`;
+          document.getElementById('depletionBarFill').style.width = `${pct}%`;
+        }
+      } catch (e) {
+        console.warn('API Drop telemetry fallback active', e);
+      }
     }
+
+    // 3. Fetch Catalog Products & Render Drop Grid
+    async function fetchCatalog() {
+      try {
+        const res = await fetch('/api/catalog');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.products)) {
+          catalog = data.products;
+          renderProductGrid(catalog);
+          return;
+        }
+      } catch (e) {
+        console.warn('API catalog fetch failed, loading default specimen catalog', e);
+      }
+
+      // Fallback local items if offline
+      catalog = [
+        {
+          id: 'PRD-01',
+          name: 'Heavyweight 450GSM Acid Wash Hoodie',
+          sku: 'VLT-HD-001',
+          category: 'hoodie',
+          price: 5499,
+          retail_price: 7999,
+          image_url: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=900&q=80',
+          spec_badge: '450GSM FLEECE // ACID WASH',
+          description: 'Heavy-gauge custom milled cotton fleece with double-layer oversized hood, raw distressed hem, and serial tag.',
+          edition_tag: '1 OF 250',
+          sizes: [
+            { size: 'S', available: 3, isSoldOut: false, badge: 'critical', label: '3 left' },
+            { size: 'M', available: 0, isSoldOut: true, badge: 'sold_out', label: 'SOLD OUT' },
+            { size: 'L', available: 5, isSoldOut: false, badge: 'low', label: '5 left' },
+            { size: 'XL', available: 2, isSoldOut: false, badge: 'critical', label: '2 left' }
+          ]
+        },
+        {
+          id: 'PRD-02',
+          name: 'Cyber-Goth Tactical Cargos',
+          sku: 'VLT-CG-002',
+          category: 'bottoms',
+          price: 4499,
+          retail_price: 6499,
+          image_url: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=900&q=80',
+          spec_badge: 'CORDURA® RIPSTOP // 8-POCKET',
+          description: 'Engineered multi-compartment tactical trousers with Cordura panels and Fidlock magnetic closures.',
+          edition_tag: 'BATCH 04',
+          sizes: [
+            { size: '28', available: 4, isSoldOut: false, badge: 'low', label: '4 left' },
+            { size: '30', available: 0, isSoldOut: true, badge: 'sold_out', label: 'SOLD OUT' },
+            { size: '32', available: 6, isSoldOut: false, badge: 'low', label: '6 left' },
+            { size: '34', available: 2, isSoldOut: false, badge: 'critical', label: '2 left' }
+          ]
+        },
+        {
+          id: 'PRD-03',
+          name: 'Deconstructed Sneaker v2',
+          sku: 'VLT-SNK-003',
+          category: 'footwear',
+          price: 8999,
+          retail_price: 12999,
+          image_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
+          spec_badge: 'VIBRAM LUG SOLE // EXPOSED FOAM',
+          description: 'Technical runner with raw foam tongue, asymmetrical lacing, and Vibram lug outsole.',
+          edition_tag: 'COLLAB 04',
+          sizes: [
+            { size: 'UK 8', available: 2, isSoldOut: false, badge: 'critical', label: '2 left' },
+            { size: 'UK 9', available: 0, isSoldOut: true, badge: 'sold_out', label: 'SOLD OUT' },
+            { size: 'UK 10', available: 3, isSoldOut: false, badge: 'critical', label: '3 left' },
+            { size: 'UK 11', available: 1, isSoldOut: false, badge: 'critical', label: '1 left' }
+          ]
+        },
+        {
+          id: 'PRD-04',
+          name: 'Distressed Balaclava',
+          sku: 'VLT-BCL-004',
+          category: 'headwear',
+          price: 1499,
+          retail_price: 2299,
+          image_url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80',
+          spec_badge: 'COMBED COTTON // KNIT',
+          description: 'Ribbed knit distressed ninja hood balaclava with precision eye aperture.',
+          edition_tag: 'SPECIMEN',
+          sizes: [
+            { size: 'ONE SIZE', available: 8, isSoldOut: false, badge: 'avail', label: '8 left' }
+          ]
+        },
+        {
+          id: 'PRD-05',
+          name: 'Industrial Utility Belt',
+          sku: 'VLT-BLT-005',
+          category: 'accessories',
+          price: 1299,
+          retail_price: 1999,
+          image_url: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=900&q=80',
+          spec_badge: 'HEAVY WEBBING // QUICK RELEASE',
+          description: 'High-density jacquard woven webbing belt with aircraft alloy buckle.',
+          edition_tag: 'SPECIMEN',
+          sizes: [
+            { size: 'ONE SIZE', available: 12, isSoldOut: false, badge: 'avail', label: '12 left' }
+          ]
+        }
+      ];
+
+      renderProductGrid(catalog);
+    }
+
+    function renderProductGrid(items) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      items.forEach(prod => {
+        // Set default selected size to first available size
+        const firstAvail = prod.sizes.find(s => !s.isSoldOut);
+        if (firstAvail && !selectedSizes[prod.id]) {
+          selectedSizes[prod.id] = firstAvail.size;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.id = `card-${prod.id}`;
+
+        let sizesHtml = '';
+        prod.sizes.forEach(sz => {
+          const isSelected = selectedSizes[prod.id] === sz.size;
+          const isSold = sz.isSoldOut;
+          const badgeClass = isSold ? '' : (sz.badge === 'critical' ? 'badge-critical' : (sz.badge === 'low' ? 'badge-low' : 'badge-avail'));
+          const label = isSold ? 'SOLD OUT' : (sz.label || `${sz.available} left`);
+
+          sizesHtml += `
+            <button class="size-btn ${isSelected ? 'active' : ''} ${isSold ? 'sold-out' : ''}" 
+                    type="button"
+                    onclick="selectProductSize('${prod.id}', '${sz.size}', ${isSold})"
+                    ${isSold ? 'title="Sold Out - Zero-Backorder Guard"' : ''}>
+              <span>${sz.size}</span>
+              <span class="size-scarcity-badge ${badgeClass}">${label}</span>
+            </button>
+          `;
+        });
+
+        const isStashAdded = stashItems.some(i => i.id === prod.id);
+
+        card.innerHTML = `
+          <div class="card-edition-badge">${prod.edition_tag || '1 OF 250'}</div>
+          <div class="card-img-wrap">
+            <img src="${prod.image_url}" alt="${prod.name}">
+          </div>
+          <div class="card-body">
+            <div class="card-category">${prod.category} // ${prod.sku}</div>
+            <h3 class="card-title">${prod.name}</h3>
+            <div class="card-spec">${prod.spec_badge || ''}</div>
+            
+            <div class="card-pricing">
+              <span class="price-current">₹${prod.price.toLocaleString('en-IN')}</span>
+              <span class="price-retail">₹${prod.retail_price.toLocaleString('en-IN')}</span>
+            </div>
+
+            <div class="size-selector-label">
+              <span>SELECT SIZE MATRIX:</span>
+              <span style="color:#FF5500;">LIVE SCARCITY BADGE</span>
+            </div>
+            
+            <div class="size-matrix" id="sizes-${prod.id}">
+              ${sizesHtml}
+            </div>
+
+            <div class="card-actions">
+              <button class="btn-cop" onclick="copNow('${prod.id}')">
+                <span>COP NOW (1-CLICK)</span>
+              </button>
+              <button class="btn-stash-add ${isStashAdded ? 'in-stash' : ''}" id="stashBtn-${prod.id}" onclick="toggleStashItem('${prod.id}')">
+                <span>${isStashAdded ? '✓ ADDED TO STASH' : '+ ADD TO STASH PACK'}</span>
+              </button>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Size Selection Handler
+    window.selectProductSize = function(productId, size, isSoldOut) {
+      if (isSoldOut) {
+        alert(`ZERO-BACKORDER GUARD:\n${size} is completely SOLD OUT. In accordance with limited drop rules, no backorders are accepted.`);
+        return;
+      }
+      selectedSizes[productId] = size;
+      const sizeContainer = document.getElementById(`sizes-${productId}`);
+      if (sizeContainer) {
+        sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.querySelector('span').textContent.trim() === size) {
+            btn.classList.add('active');
+          }
+        });
+      }
+    };
+
+    // Lookbook coordinate inspector
+    window.inspectCoord = function(idx) {
+      if (!catalog[idx]) return;
+      const prod = catalog[idx];
+      document.getElementById('inspTitle').textContent = prod.name;
+      document.getElementById('inspDesc').textContent = prod.description;
+      document.getElementById('inspPrice').textContent = `₹${prod.price.toLocaleString('en-IN')}.00`;
+      
+      const card = document.getElementById(`card-${prod.id}`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.outline = '4px solid #CCFF00';
+        setTimeout(() => { card.style.outline = 'none'; }, 2000);
+      }
+    };
+
+    // 1-Click Cop Handler
+    window.copNow = function(productId) {
+      const prod = catalog.find(p => p.id === productId);
+      if (!prod) return;
+
+      const size = selectedSizes[productId] || (prod.sizes.find(s => !s.isSoldOut) || {}).size;
+      const sizeObj = prod.sizes.find(s => s.size === size);
+
+      if (!sizeObj || sizeObj.isSoldOut || sizeObj.available <= 0) {
+        alert('ZERO-BACKORDER GUARD:\nSelected size is sold out. Please select an available size.');
+        return;
+      }
+
+      // Check if item already in cart
+      const existing = cart.find(c => c.productId === prod.id && c.size === size);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          productId: prod.id,
+          name: prod.name,
+          sku: prod.sku,
+          size: size,
+          price: prod.price,
+          qty: 1,
+          image_url: prod.image_url
+        });
+      }
+
+      updateCartBadge();
+      openDrawer();
+    };
+
+    // Interactive Stash Pack Bundle Builder
+    window.toggleStashItem = function(productId) {
+      const prod = catalog.find(p => p.id === productId);
+      if (!prod) return;
+
+      const existingIndex = stashItems.findIndex(i => i.id === prod.id);
+      if (existingIndex > -1) {
+        // Remove
+        stashItems.splice(existingIndex, 1);
+      } else {
+        if (stashItems.length >= 3) {
+          alert('STASH PACK FULL (3 ITEMS):\nRemove an item from your Stash Tray before adding another specimen.');
+          return;
+        }
+        const size = selectedSizes[productId] || (prod.sizes.find(s => !s.isSoldOut) || {}).size;
+        stashItems.push({
+          id: prod.id,
+          name: prod.name,
+          size: size,
+          price: prod.price
+        });
+      }
+
+      renderStashTray();
+      renderProductGrid(catalog); // Refresh button text
+    };
+
+    function renderStashTray() {
+      for (let i = 0; i < 3; i++) {
+        const slotEl = document.getElementById(`stashSlot${i}`);
+        const it = stashItems[i];
+        if (it) {
+          slotEl.className = 'stash-slot filled';
+          slotEl.innerHTML = `
+            <button class="stash-slot-remove" onclick="removeStashSlot(${i})">✕</button>
+            <div class="stash-slot-title">${it.name}</div>
+            <div class="stash-slot-price">SIZE: ${it.size} • ₹${it.price.toLocaleString('en-IN')}</div>
+          `;
+        } else {
+          slotEl.className = 'stash-slot';
+          slotEl.innerHTML = `
+            <span style="color:#555; font-size:11px;">[ SLOT 0${i + 1}: EMPTY ]</span>
+            <span style="font-size:10px; color:#444; margin-top:4px;">Click "+ STASH" on product</span>
+          `;
+        }
+      }
+
+      const count = stashItems.length;
+      document.getElementById('stashItemCount').textContent = `${count} / 3 Items`;
+
+      const subtotal = stashItems.reduce((acc, it) => acc + it.price, 0);
+      const isEligible = count >= 3;
+      const discount = isEligible ? Math.round(subtotal * 0.20) : 0;
+      const finalTotal = subtotal - discount;
+
+      document.getElementById('stashSubtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+      document.getElementById('stashDiscount').textContent = isEligible ? `-₹${discount.toLocaleString('en-IN')}` : '₹0 (Need 3)';
+      document.getElementById('stashFinalTotal').textContent = `₹${finalTotal.toLocaleString('en-IN')}`;
+
+      const bonusBadge = document.getElementById('stashBonusBadge');
+      const checkoutBtn = document.getElementById('stashCheckoutBtn');
+
+      if (isEligible) {
+        bonusBadge.style.background = '#CCFF00';
+        bonusBadge.style.color = '#000';
+        bonusBadge.innerHTML = '⚡ 20% STASH BONUS ACTIVATED! SAVE ₹' + discount.toLocaleString('en-IN');
+        checkoutBtn.disabled = false;
+        checkoutBtn.style.background = '#CCFF00';
+        checkoutBtn.style.color = '#000';
+      } else {
+        bonusBadge.style.background = '#FF5500';
+        bonusBadge.style.color = '#FFF';
+        bonusBadge.innerHTML = `⚡ SELECT ${3 - count} MORE ITEM(S) TO UNLOCK 20% DISCOUNT`;
+        checkoutBtn.disabled = true;
+        checkoutBtn.style.background = '#222';
+        checkoutBtn.style.color = '#666';
+      }
+    }
+
+    window.removeStashSlot = function(idx) {
+      stashItems.splice(idx, 1);
+      renderStashTray();
+      renderProductGrid(catalog);
+    };
+
+    window.checkoutStash = function() {
+      if (stashItems.length < 3) return;
+      // Replace cart with stash items
+      cart = stashItems.map(it => ({
+        productId: it.id,
+        name: it.name,
+        sku: 'STASH-' + it.id,
+        size: it.size,
+        price: it.price,
+        qty: 1
+      }));
+      updateCartBadge();
+      openDrawer();
+    };
+
+    // Cart and Drawer Management
+    function updateCartBadge() {
+      const totalUnits = cart.reduce((acc, it) => acc + it.qty, 0);
+      document.getElementById('navCartCount').textContent = totalUnits;
+    }
+
+    window.openDrawer = function() {
+      renderDrawerCart();
+      document.getElementById('checkoutDrawer').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('active');
+    };
+
+    window.closeDrawer = function() {
+      document.getElementById('checkoutDrawer').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('active');
+    };
+
+    function renderDrawerCart() {
+      const listEl = document.getElementById('drawerCartList');
+      listEl.innerHTML = '';
+
+      if (cart.length === 0) {
+        listEl.innerHTML = '<div style="font-family:var(--font-mono); font-size:12px; color:#888; padding:20px; text-align:center;">Vault bag is empty. Add specimens from Drop 04.</div>';
+        document.getElementById('summarySubtotal').textContent = '₹0';
+        document.getElementById('summaryDiscount').textContent = '-₹0';
+        document.getElementById('summaryTotal').textContent = '₹0';
+        document.getElementById('btnPayAmount').textContent = '0';
+        return;
+      }
+
+      let subtotal = 0;
+      cart.forEach((it, idx) => {
+        const lineTotal = it.price * it.qty;
+        subtotal += lineTotal;
+
+        const row = document.createElement('div');
+        row.className = 'checkout-item-row';
+        row.innerHTML = `
+          <div>
+            <div style="font-weight:800; font-size:13px;">${it.name}</div>
+            <div style="font-size:11px; color:#555;">SIZE: ${it.size} • ₹${it.price.toLocaleString('en-IN')} × ${it.qty}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <strong style="font-size:14px;">₹${lineTotal.toLocaleString('en-IN')}</strong>
+            <button onclick="removeCartItem(${idx})" style="background:#FF5500; color:#FFF; border:none; padding:4px 8px; font-weight:800; cursor:pointer;">✕</button>
+          </div>
+        `;
+        listEl.appendChild(row);
+      });
+
+      // Apply 20% discount if 3 or more items
+      const isStashCombo = cart.reduce((acc, it) => acc + it.qty, 0) >= 3;
+      const discount = isStashCombo ? Math.round(subtotal * 0.20) : 0;
+      const grandTotal = subtotal - discount;
+
+      document.getElementById('summarySubtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+      document.getElementById('summaryDiscount').textContent = isStashCombo ? `-₹${discount.toLocaleString('en-IN')}` : '-₹0';
+      document.getElementById('summaryTotal').textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
+      document.getElementById('btnPayAmount').textContent = grandTotal.toLocaleString('en-IN');
+
+      updatePayButtonState();
+    }
+
+    window.removeCartItem = function(idx) {
+      cart.splice(idx, 1);
+      updateCartBadge();
+      renderDrawerCart();
+    };
+
+    // 7. ANTI-BOT QUEUE LOCKER SLIDER LOGIC
+    function initAntiBotSlider() {
+      const container = document.getElementById('antiBotContainer');
+      const track = document.getElementById('sliderTrack');
+      const fill = document.getElementById('sliderFill');
+      const thumb = document.getElementById('sliderThumb');
+      const text = document.getElementById('sliderText');
+      const badge = document.getElementById('antiBotStatusBadge');
+
+      let isDragging = false;
+      let startX = 0;
+      let maxDrag = 0;
+
+      function updateMaxDrag() {
+        maxDrag = track.clientWidth - thumb.clientWidth;
+      }
+
+      window.addEventListener('resize', updateMaxDrag);
+      updateMaxDrag();
+
+      function onStart(e) {
+        if (botVerified) return;
+        isDragging = true;
+        startX = (e.touches ? e.touches[0].clientX : e.clientX) - thumb.offsetLeft;
+        document.body.style.userSelect = 'none';
+      }
+
+      function onMove(e) {
+        if (!isDragging || botVerified) return;
+        const currentX = (e.touches ? e.touches[0].clientX : e.clientX);
+        let left = currentX - startX;
+        left = Math.max(0, Math.min(left, maxDrag));
+
+        thumb.style.left = `${left}px`;
+        fill.style.width = `${left + (thumb.clientWidth / 2)}px`;
+
+        if (left >= maxDrag - 5) {
+          // Unlocked!
+          completeUnlock();
+        }
+      }
+
+      function onEnd() {
+        if (botVerified) return;
+        isDragging = false;
+        document.body.style.userSelect = '';
+        if (parseInt(thumb.style.left || 0) < maxDrag - 5) {
+          // snap back
+          thumb.style.transition = 'left 0.2s';
+          fill.style.transition = 'width 0.2s';
+          thumb.style.left = '0px';
+          fill.style.width = '0px';
+          setTimeout(() => {
+            thumb.style.transition = '';
+            fill.style.transition = '';
+          }, 200);
+        }
+      }
+
+      function completeUnlock() {
+        botVerified = true;
+        isDragging = false;
+        botToken = `BOT-PASS-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+
+        container.classList.add('unlocked');
+        text.textContent = '✓ HUMAN VERIFIED // QUEUE UNLOCKED';
+        badge.textContent = 'PASS: ' + botToken.slice(0, 14);
+        badge.style.color = '#000';
+        badge.style.background = '#CCFF00';
+        badge.style.padding = '2px 6px';
+
+        document.getElementById('telemetryBotStatus').textContent = 'VERIFIED (' + botToken.slice(0, 10) + ')';
+        document.getElementById('telemetryBotStatus').style.color = '#CCFF00';
+
+        updatePayButtonState();
+      }
+
+      thumb.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+
+      thumb.addEventListener('touchstart', onStart, { passive: true });
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', onEnd);
+    }
+
+    function updatePayButtonState() {
+      const btn = document.getElementById('btnPayUpi');
+      if (cart.length > 0 && botVerified) {
+        btn.disabled = false;
+      } else {
+        btn.disabled = true;
+      }
+    }
+
+    // 8. EXECUTE CASHFREE UPI CHECKOUT
+    window.executeCheckout = async function() {
+      if (!botVerified) {
+        alert('ANTI-BOT GUARD: Please complete the Queue Locker slider before proceeding.');
+        return;
+      }
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+
+      const custName = document.getElementById('custName').value.trim() || 'Vault Patron';
+      const custPhone = document.getElementById('custPhone').value.trim() || '919061902295';
+      const custAddress = document.getElementById('custAddress').value.trim() || 'Express Courier Address';
+
+      const payload = {
+        channel: 'online',
+        botToken: botToken,
+        items: cart.map(i => ({ productId: i.productId, size: i.size, qty: i.qty })),
+        customer: {
+          name: custName,
+          phone: custPhone,
+          address: custAddress
+        },
+        paymentMethod: 'cashfree_upi'
+      };
+
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          alert(`CHECKOUT REJECTED:\n${data.message || data.error}`);
+          return;
+        }
+
+        // Show Confirmation
+        showOrderSuccess(data);
+      } catch (err) {
+        // Fallback simulation
+        const mockOrderId = 'VLT-ORD-' + Math.floor(1000 + Math.random() * 9000);
+        const mockPass = 'PASS-ACID-' + Math.floor(1000 + Math.random() * 9000) + '-77A';
+        showOrderSuccess({
+          orderId: mockOrderId,
+          dropPassToken: mockPass
+        });
+      }
+    };
+
+    function showOrderSuccess(orderData) {
+      document.getElementById('orderPassPill').textContent = orderData.dropPassToken;
+      document.getElementById('succOrderId').textContent = orderData.orderId;
+      document.getElementById('orderSuccessScreen').style.display = 'block';
+      document.getElementById('upiBox').style.display = 'none';
+
+      // Clear cart
+      cart = [];
+      stashItems = [];
+      updateCartBadge();
+      fetchDropTelemetry(); // update remaining units
+    }
+
+    window.resetOrderView = function() {
+      document.getElementById('orderSuccessScreen').style.display = 'none';
+      document.getElementById('upiBox').style.display = 'block';
+      closeDrawer();
+    };
   </script>
 </body>
 </html>

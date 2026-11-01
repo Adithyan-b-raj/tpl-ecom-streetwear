@@ -1,31 +1,46 @@
 /* ==========================================================================
    BMAD Normalized Design Tokens & Movement Blueprint (theme-tokens.css)
-   Movement  : [B] Raw Acid Neo-Brutalism
-   Archetype : Streetwear Flash-Drop & Hype Vault (Palace / Gumroad / Balenciaga / MSCHF)
-   Reference : https://gumroad.com
+   Movement  : [B] Raw Acid Neo-Brutalism (Supreme / Palace / Off-White Awwwards)
+   Archetype : Streetwear Flash-Drop & Hype Vault (acid-neobrutalism-drop)
+   Palette   : #CCFF00 (Acid Lime), #FF5500 (Safety Orange), #050505 (Pitch Black)
    Contract  : whitelabel-and-showroom-contract.md §2 + design-movements-and-layout-blueprints.md
    ========================================================================== */
 
 :root {
-  --font-primary: 'Space Grotesk', sans-serif;
+  --font-primary: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-accent: 'Syne', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-primary: #FF2A00;
+  /* Acid Neo-Brutalist Core Colors */
+  --color-primary: #CCFF00;
   --brand-primary: var(--color-primary);
-
-  --color-dark: #0A0A0A;
+  --color-secondary: #FF5500;
+  --color-orange: #FF5500;
+  --color-lime: #CCFF00;
+  --color-dark: #050505;
   --brand-dark: var(--color-dark);
 
-  --bg-main: #F4F4F0;
-  --bg-canvas: #E5FF00;
-  --bg-sand: var(--bg-canvas);
+  --bg-main: #0B0B0C;
+  --bg-surface: #121214;
+  --bg-canvas: #CCFF00;
+  --bg-card: #FFFFFF;
+  --bg-sand: #F2F1EC;
 
-  --border-color: #0A0A0A;
-  --border-structural: 3px solid #0A0A0A;
-  --shadow-token: 6px 6px 0px #0A0A0A;
-  --grid-gap-desktop: 0px;
-  --grid-gap-mobile: 0px;
+  --text-main: #050505;
+  --text-light: #F4F4F0;
+  --text-muted: #8E8E93;
+
+  --border-color: #050505;
+  --border-structural: 3px solid #050505;
+  --border-lime: 3px solid #CCFF00;
+  --border-orange: 3px solid #FF5500;
+
+  --shadow-token: 5px 5px 0px #050505;
+  --shadow-lime: 5px 5px 0px #CCFF00;
+  --shadow-orange: 5px 5px 0px #FF5500;
+  --shadow-inset: inset 2px 2px 0px rgba(0,0,0,0.2);
+
   --radius: 0px;
-  --ease-out-expo: steps(4, end);
+  --radius-badge: 0px;
+  --ease-brutal: cubic-bezier(0.19, 1, 0.22, 1);
 }

@@ -2,18 +2,1251 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title data-wl-brand>VAULT® // Stall POS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-wl-brand>VAULT® // DROP QUOTA CONTROLLER & POP-UP POS</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@600;700;800&family=Syne:wght@800;900&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="theme-tokens.css">
   <script src="whitelabel.js"></script>
+
   <style>
-    body { background: #000; color: #E5FF00; font-family: monospace; padding: 24px; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #070708;
+      color: #E6E6E6;
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      line-height: 1.4;
+      overflow-x: hidden;
+      padding-bottom: 40px;
+    }
+
+    /* Chunky Neo-Brutalist elements */
+    .b-card {
+      background: #111114;
+      border: 3px solid #000;
+      box-shadow: 5px 5px 0px #000;
+    }
+
+    .b-card-lime {
+      border: 3px solid #CCFF00;
+      box-shadow: 6px 6px 0px #CCFF00;
+    }
+
+    .b-card-orange {
+      border: 3px solid #FF5500;
+      box-shadow: 6px 6px 0px #FF5500;
+    }
+
+    /* TOP COMMAND BAR */
+    .admin-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      border-bottom: 3px solid #CCFF00;
+      padding: 16px 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-title {
+      font-family: var(--font-accent, 'Syne', sans-serif);
+      font-size: 20px;
+      font-weight: 900;
+      color: #CCFF00;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .topbar-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-beacon {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #CCFF00;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #CCFF00;
+      animation: beaconFlash 1.4s infinite ease-in-out;
+    }
+
+    .status-beacon.paused {
+      background: #FF5500;
+      box-shadow: 0 0 10px #FF5500;
+    }
+
+    @keyframes beaconFlash {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    .btn-return-store {
+      background: #CCFF00;
+      color: #000;
+      border: 2px solid #000;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 14px;
+      text-decoration: none;
+      box-shadow: 3px 3px 0px #000;
+      transition: transform 0.1s;
+    }
+
+    .btn-return-store:hover {
+      transform: translate(-1px, -1px);
+      background: #FFF;
+    }
+
+    /* MAIN ADMIN LAYOUT */
+    .admin-container {
+      max-width: 1440px;
+      margin: 24px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1100px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* SECTION 1: DROP QUOTA DEPLETION CONTROLLER */
+    .section-title {
+      font-family: var(--font-accent, 'Syne', sans-serif);
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #FFF;
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .telemetry-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .metric-tile {
+      background: #151518;
+      border: 2px solid #333;
+      padding: 14px;
+      box-shadow: 3px 3px 0px #000;
+    }
+
+    .metric-tile.highlight {
+      border-color: #CCFF00;
+      box-shadow: 3px 3px 0px #CCFF00;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.1;
+    }
+
+    .metric-tile.highlight .metric-value {
+      color: #CCFF00;
+    }
+
+    /* Real-Time Depletion Velocity Gauge */
+    .velocity-gauge-card {
+      background: #131316;
+      border: 2px solid #26262B;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .gauge-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .gauge-speed-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: #FF5500;
+    }
+
+    .burn-progress-track {
+      height: 24px;
+      background: #000;
+      border: 2px solid #333;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .burn-progress-fill {
+      height: 100%;
+      width: 67.2%;
+      background: repeating-linear-gradient(
+        -45deg,
+        #CCFF00,
+        #CCFF00 10px,
+        #9AC400 10px,
+        #9AC400 20px
+      );
+      transition: width 0.4s ease;
+    }
+
+    /* Throttler Action Buttons */
+    .quota-action-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn-action {
+      background: #000;
+      color: #FFF;
+      border: 2px solid #CCFF00;
+      padding: 14px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 4px 4px 0px #CCFF00;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-action:hover {
+      background: #CCFF00;
+      color: #000;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #CCFF00;
+    }
+
+    .btn-action.btn-pause {
+      border-color: #FF5500;
+      box-shadow: 4px 4px 0px #FF5500;
+    }
+
+    .btn-action.btn-pause:hover {
+      background: #FF5500;
+      color: #FFF;
+      box-shadow: 6px 6px 0px #FF5500;
+    }
+
+    /* SECTION 2: RAPID-FIRE POP-UP COUNTER POS */
+    .pos-container {
+      background: #121215;
+      border: 3px solid #CCFF00;
+      box-shadow: 6px 6px 0px #CCFF00;
+      padding: 24px;
+    }
+
+    .pos-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #28282F;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    /* Barcode Scanner Input */
+    .barcode-input-frame {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .barcode-input {
+      flex-grow: 1;
+      background: #000;
+      color: #CCFF00;
+      border: 2px solid #CCFF00;
+      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .barcode-input::placeholder {
+      color: #555;
+    }
+
+    .barcode-btn {
+      background: #CCFF00;
+      color: #000;
+      border: 2px solid #000;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 0 16px;
+      cursor: pointer;
+    }
+
+    /* Rapid Tap Product Buttons */
+    .pos-tap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pos-item-btn {
+      background: #1B1B20;
+      border: 2px solid #333;
+      padding: 12px 10px;
+      color: #FFF;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-mono);
+      transition: all 0.1s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 80px;
+    }
+
+    .pos-item-btn:hover {
+      border-color: #CCFF00;
+      background: #25252D;
+      transform: translate(-1px, -1px);
+    }
+
+    .pos-item-name {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .pos-item-price {
+      font-size: 12px;
+      font-weight: 800;
+      color: #CCFF00;
+      margin-top: 6px;
+    }
+
+    /* Active Register Cart Table */
+    .register-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .register-table th {
+      background: #000;
+      color: #888;
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 2px solid #333;
+      font-weight: 800;
+    }
+
+    .register-table td {
+      padding: 10px;
+      border-bottom: 1px solid #222;
+    }
+
+    .register-total-card {
+      background: #000;
+      border: 2px solid #CCFF00;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .reg-summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: #AAA;
+    }
+
+    .reg-grand-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 22px;
+      font-weight: 900;
+      color: #CCFF00;
+      border-top: 2px solid #333;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    /* Tender Actions */
+    .tender-options-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .tender-btn {
+      background: #18181D;
+      color: #FFF;
+      border: 2px solid #333;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .tender-btn.active {
+      background: #CCFF00;
+      color: #000;
+      border-color: #000;
+    }
+
+    .btn-charge-receipt {
+      background: #CCFF00;
+      color: #000;
+      border: 3px solid #000;
+      padding: 18px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0px #000;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.15s;
+    }
+
+    .btn-charge-receipt:hover:not(:disabled) {
+      background: #FF5500;
+      color: #FFF;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #000;
+    }
+
+    .btn-charge-receipt:disabled {
+      background: #333;
+      color: #777;
+      border-color: #222;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* SECTION 3: RECENT ORDERS AUDIT FEED */
+    .orders-section {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .orders-table-card {
+      background: #111114;
+      border: 3px solid #222;
+      overflow-x: auto;
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .orders-table th {
+      background: #000;
+      color: #CCFF00;
+      padding: 12px;
+      text-align: left;
+      border-bottom: 2px solid #333;
+    }
+
+    .orders-table td {
+      padding: 12px;
+      border-bottom: 1px solid #1E1E22;
+    }
+
+    /* ----------------------------------------------------
+       PRINT STYLES: 80MM THERMAL RECEIPT ROLL
+       ---------------------------------------------------- */
+    #thermalReceipt {
+      display: none;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #thermalReceipt, #thermalReceipt * {
+        visibility: visible;
+      }
+      #thermalReceipt {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 80mm;
+        margin: 0;
+        padding: 5mm;
+        background: #FFF;
+        color: #000;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 11px;
+        line-height: 1.25;
+      }
+      .receipt-hr {
+        border-top: 1px dashed #000;
+        margin: 6px 0;
+      }
+    }
   </style>
 </head>
-<body data-layout-archetype="raw-neobrutalism-admin">
-  <h2><span data-wl-brand>VAULT®</span> — Popup Stall Quick POS</h2>
-  <div style="border:2px solid #E5FF00; padding:20px; margin-top:20px;">
-    <div>STOCK REMAINING: 42 PIECES</div>
-    <div style="margin-top:10px;"><button style="background:#E5FF00; color:#000; font-weight:700; padding:8px 16px; border:none; cursor:pointer;" onclick="alert('Waitlist SMS / WhatsApp blast sent!')">SEND DROP WAITLIST BLAST</button></div>
+<body data-layout-archetype="drop-quota-admin">
+
+  <!-- TOP COMMAND BAR -->
+  <header class="admin-topbar">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="status-beacon" id="beaconStatus"></span>
+      <div class="brand-title"><span data-wl-brand>VAULT®</span> // DROP QUOTA CONTROLLER</div>
+    </div>
+
+    <div class="topbar-telemetry">
+      <span id="telemetryStatusText">STATUS: ACTIVE // 250 ALLOCATED</span>
+      <span style="color:#555;">|</span>
+      <span>POS TERMINAL: #01</span>
+      <a href="index.html" class="btn-return-store">VIEW STOREFRONT ↗</a>
+    </div>
+  </header>
+
+  <!-- MAIN ADMIN WORKSPACE -->
+  <main class="admin-container">
+    
+    <!-- LEFT PANEL: DROP QUOTA DEPLETION CONTROLLER -->
+    <section>
+      <div class="section-title">
+        <span>⚡ DROP QUOTA & VELOCITY CONTROLLER</span>
+      </div>
+
+      <!-- Live Counters -->
+      <div class="telemetry-grid">
+        <div class="metric-tile">
+          <div class="metric-label">TOTAL ALLOCATED</div>
+          <div class="metric-value" id="valTotal">250</div>
+        </div>
+        <div class="metric-tile highlight">
+          <div class="metric-label">SOLD / CLAIMED</div>
+          <div class="metric-value" id="valSold">168</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">REMAINING UNITS</div>
+          <div class="metric-value" id="valRemaining">82</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">ACTIVE BUYERS</div>
+          <div class="metric-value" id="valQueue">24</div>
+        </div>
+      </div>
+
+      <!-- Real-Time Velocity Gauge -->
+      <div class="velocity-gauge-card">
+        <div class="gauge-top">
+          <div>
+            <div style="font-size:11px; color:#888; font-weight:800; letter-spacing:1px;">STOCK DEPLETION VELOCITY</div>
+            <div style="font-size:12px; color:#AAA;">Real-time checkout velocity across Edge isolates</div>
+          </div>
+          <div class="gauge-speed-num" id="gaugeSpeed">4.2 <span style="font-size:14px; color:#888;">UNITS/MIN</span></div>
+        </div>
+
+        <div class="burn-progress-track">
+          <div class="burn-progress-fill" id="burnProgressFill"></div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:#666;">
+          <span>0 UNITS (SLOW)</span>
+          <span id="depletionPctLabel">67.2% DEPLETED</span>
+          <span>10+ UNITS/MIN (VIRAL RUSH)</span>
+        </div>
+      </div>
+
+      <!-- Release Throttler & Pause Actions -->
+      <div class="b-card" style="padding:20px;">
+        <div style="font-size:12px; font-weight:800; color:#CCFF00; margin-bottom:8px; text-transform:uppercase;">
+          QUOTA THROTTLER & OVERRIDE CONTROLS
+        </div>
+        <p style="font-size:11px; color:#888; margin-bottom:14px;">
+          Inject additional batches directly into D1 / isolate memory without restarting workers, or trigger emergency pause.
+        </p>
+
+        <div class="quota-action-matrix">
+          <button class="btn-action" onclick="executeBatchRelease(50)">
+            <span>+ RELEASE BATCH OF 50</span>
+          </button>
+          
+          <button class="btn-action btn-pause" id="btnPauseToggle" onclick="toggleDropPause()">
+            <span>EMERGENCY DROP PAUSE</span>
+          </button>
+
+          <button class="btn-action" onclick="sendWaitlistBlast()">
+            <span>BLAST 1,420 WAITLIST (WA/SMS)</span>
+          </button>
+
+          <button class="btn-action" onclick="restockCatalog()">
+            <span>RESTOCK DROP SIZES</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Specimen Size Inventory Matrix -->
+      <div class="b-card" style="padding:20px; margin-top:20px;">
+        <div style="font-size:12px; font-weight:800; color:#FFF; margin-bottom:12px;">
+          DROP 04 LIVE SIZES (ZERO-BACKORDER GUARD)
+        </div>
+        <div id="adminInventoryGrid" style="display:flex; flex-direction:column; gap:10px; font-size:11px;">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: RAPID-FIRE POP-UP COUNTER POS -->
+    <section>
+      <div class="pos-container">
+        <div class="pos-header-bar">
+          <div>
+            <div style="font-family:var(--font-accent); font-size:18px; font-weight:900; color:#CCFF00;">
+              RAPID-FIRE POP-UP POS
+            </div>
+            <div style="font-size:11px; color:#888;">Optimized for high-speed street pop-up stalls</div>
+          </div>
+          <span style="background:#000; border:1px solid #CCFF00; color:#CCFF00; padding:4px 8px; font-size:10px; font-weight:800;">
+            1-TAP ACTIVE
+          </span>
+        </div>
+
+        <!-- Barcode Scanner Input -->
+        <div class="barcode-input-frame">
+          <input type="text" class="barcode-input" id="barcodeInput" placeholder="Scan Barcode (e.g. VLT-HD-001) + Enter" onkeydown="handleBarcodeKey(event)">
+          <button class="barcode-btn" onclick="scanBarcode()">SCAN</button>
+        </div>
+
+        <!-- 1-Tap Item Buttons -->
+        <div style="font-size:10px; color:#888; font-weight:800; margin-bottom:6px; letter-spacing:1px;">
+          1-TAP CATALOG INTAKE:
+        </div>
+        <div class="pos-tap-grid">
+          <button class="pos-item-btn" onclick="posAddItem('PRD-01', 'L')">
+            <span class="pos-item-name">Heavyweight Hoodie</span>
+            <span class="pos-item-price">₹5,499 (L)</span>
+          </button>
+          <button class="pos-item-btn" onclick="posAddItem('PRD-02', '32')">
+            <span class="pos-item-name">Tactical Cargos</span>
+            <span class="pos-item-price">₹4,499 (32)</span>
+          </button>
+          <button class="pos-item-btn" onclick="posAddItem('PRD-03', 'UK 10')">
+            <span class="pos-item-name">Runner Sneaker v2</span>
+            <span class="pos-item-price">₹8,999 (UK 10)</span>
+          </button>
+          <button class="pos-item-btn" onclick="posAddItem('PRD-04', 'ONE SIZE')">
+            <span class="pos-item-name">Distressed Balaclava</span>
+            <span class="pos-item-price">₹1,499 (OS)</span>
+          </button>
+          <button class="pos-item-btn" onclick="posAddItem('PRD-05', 'ONE SIZE')">
+            <span class="pos-item-name">Utility Belt</span>
+            <span class="pos-item-price">₹1,299 (OS)</span>
+          </button>
+        </div>
+
+        <!-- Active Order Register Cart Table -->
+        <div style="background:#000; border:2px solid #222; max-height:200px; overflow-y:auto; margin-bottom:12px;">
+          <table class="register-table">
+            <thead>
+              <tr>
+                <th>ITEM & SIZE</th>
+                <th style="text-align:center;">QTY</th>
+                <th style="text-align:right;">PRICE</th>
+                <th style="text-align:right;">ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="posCartBody">
+              <tr>
+                <td colspan="4" style="text-align:center; color:#666; padding:24px;">Register cart is empty. Tap items or scan barcode.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Customer Phone & Tender Summary -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+          <div>
+            <label style="font-size:10px; color:#888; font-weight:800; display:block; margin-bottom:4px;">CUSTOMER PHONE (RECEIPT SMS)</label>
+            <input type="tel" id="posPhoneInput" value="919061902295" style="width:100%; background:#000; border:2px solid #333; color:#FFF; padding:10px; font-family:var(--font-mono); font-size:12px;">
+          </div>
+          <div>
+            <label style="font-size:10px; color:#888; font-weight:800; display:block; margin-bottom:4px;">PAYMENT TENDER</label>
+            <div class="tender-options-row" style="margin:0;">
+              <button class="tender-btn active" id="btnTenderUpi" onclick="setTender('upi')">UPI QR</button>
+              <button class="tender-btn" id="btnTenderCash" onclick="setTender('cash')">CASH</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register Totals Card -->
+        <div class="register-total-card">
+          <div class="reg-summary-row">
+            <span>Subtotal:</span>
+            <span id="posSubtotal">₹0.00</span>
+          </div>
+          <div class="reg-summary-row" id="posStashBonusRow" style="color:#CCFF00; display:none;">
+            <span>Stash Pack Promo (20% Combo):</span>
+            <span id="posStashDiscount">-₹0.00</span>
+          </div>
+          <div class="reg-summary-row">
+            <span>GST (Included 12%):</span>
+            <span id="posGst">₹0.00</span>
+          </div>
+          <div class="reg-grand-total">
+            <span>TOTAL DUE:</span>
+            <span id="posGrandTotal">₹0.00</span>
+          </div>
+        </div>
+
+        <!-- Charge & Trigger 80mm Receipt -->
+        <button class="btn-charge-receipt" id="btnChargePos" onclick="chargeAndPrintReceipt()" disabled>
+          <span>CHARGE & PRINT 80MM RECEIPT 🖨️</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SECTION 3: RECENT ORDERS AUDIT FEED -->
+  <section class="orders-section">
+    <div class="section-title">
+      <span>📋 RECENT DROP TRANSACTIONS (ONLINE & STALL POS)</span>
+    </div>
+    
+    <div class="orders-table-card">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>ORDER ID</th>
+            <th>CUSTOMER / CHANNEL</th>
+            <th>ORDER DETAIL</th>
+            <th>AMOUNT</th>
+            <th>PASS TOKEN</th>
+            <th>STATUS</th>
+            <th>TIMESTAMP</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+          <!-- Loaded dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 80MM THERMAL RECEIPT CONTAINER (VISIBLE ONLY IN PRINT) -->
+  <div id="thermalReceipt">
+    <div style="text-align:center; margin-bottom:6px;">
+      <h2 style="font-size:16px; font-weight:900;" data-wl-brand>VAULT®</h2>
+      <div>STREETWEAR DROP STORE</div>
+      <div>TERMINAL #01 • POP-UP STALL</div>
+      <div>GSTIN: 32AABCV4921C1Z0</div>
+    </div>
+    <div class="receipt-hr"></div>
+    <div style="display:flex; justify-content:space-between;">
+      <span>ORDER: <strong id="recOrderId">VLT-ORD-XXXX</strong></span>
+      <span id="recDate">2026-11-01</span>
+    </div>
+    <div style="display:flex; justify-content:space-between;">
+      <span>TENDER: <strong id="recTender">UPI QR</strong></span>
+      <span id="recCustomer">Stall Patron</span>
+    </div>
+    <div class="receipt-hr"></div>
+    <table style="width:100%; border-collapse:collapse; margin:4px 0;">
+      <thead>
+        <tr>
+          <th style="text-align:left;">ITEM</th>
+          <th style="text-align:center;">QTY</th>
+          <th style="text-align:right;">AMT</th>
+        </tr>
+      </thead>
+      <tbody id="recItemsBody">
+      </tbody>
+    </table>
+    <div class="receipt-hr"></div>
+    <div style="display:flex; justify-content:space-between;">
+      <span>SUBTOTAL:</span>
+      <span id="recSubtotal">₹0</span>
+    </div>
+    <div style="display:flex; justify-content:space-between;" id="recDiscountRow">
+      <span>DISCOUNT:</span>
+      <span id="recDiscount">-₹0</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px; margin:4px 0;">
+      <span>TOTAL DUE:</span>
+      <span id="recTotal">₹0</span>
+    </div>
+    <div class="receipt-hr"></div>
+    <div style="text-align:center; margin:8px 0;">
+      <div>*** VIP DROP PASS TOKEN ***</div>
+      <div style="font-weight:bold; font-size:13px; margin:4px 0;" id="recPassToken">PASS-ACID-XXXX</div>
+      <div>NO RETURNS / NO RESTOCKS</div>
+      <div style="margin-top:6px;">SUPPORT: concierge@streetvault.in</div>
+    </div>
   </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    let currentDrop = {};
+    let posCart = [];
+    let selectedTender = 'upi';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchAdminTelemetry();
+      fetchAdminCatalog();
+      fetchOrdersFeed();
+      setInterval(fetchAdminTelemetry, 5000);
+    });
+
+    async function fetchAdminTelemetry() {
+      try {
+        const res = await fetch('/api/drop');
+        const data = await res.json();
+        if (data.success && data.drop) {
+          currentDrop = data.drop;
+          updateTelemetryUI(currentDrop);
+        }
+      } catch (e) {
+        console.warn('Telemetry fetch error', e);
+      }
+    }
+
+    function updateTelemetryUI(drop) {
+      document.getElementById('valTotal').textContent = drop.total_units || 250;
+      document.getElementById('valSold').textContent = drop.sold_units || 168;
+      document.getElementById('valRemaining').textContent = drop.remaining_units !== undefined ? drop.remaining_units : 82;
+      document.getElementById('valQueue').textContent = drop.in_queue_count || 24;
+      document.getElementById('gaugeSpeed').innerHTML = `${drop.velocity_per_min || 4.2} <span style="font-size:14px; color:#888;">UNITS/MIN</span>`;
+
+      const pct = Math.min(100, Math.round(((drop.sold_units || 168) / (drop.total_units || 250)) * 100));
+      document.getElementById('burnProgressFill').style.width = `${pct}%`;
+      document.getElementById('depletionPctLabel').textContent = `${pct}% DEPLETED`;
+
+      const beacon = document.getElementById('beaconStatus');
+      const statusText = document.getElementById('telemetryStatusText');
+      const pauseBtn = document.getElementById('btnPauseToggle');
+
+      if (drop.is_paused) {
+        beacon.className = 'status-beacon paused';
+        statusText.textContent = 'STATUS: EMERGENCY PAUSED';
+        statusText.style.color = '#FF5500';
+        pauseBtn.innerHTML = '<span>RESUME DROP PROTOCOL</span>';
+        pauseBtn.style.borderColor = '#CCFF00';
+      } else {
+        beacon.className = 'status-beacon';
+        statusText.textContent = `STATUS: ACTIVE // ${drop.remaining_units} PIECES LEFT`;
+        statusText.style.color = '#CCFF00';
+        pauseBtn.innerHTML = '<span>EMERGENCY DROP PAUSE</span>';
+        pauseBtn.style.borderColor = '#FF5500';
+      }
+    }
+
+    // Release batch of 50
+    window.executeBatchRelease = async function(amount) {
+      try {
+        const res = await fetch('/api/drop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'release_batch', amount })
+        });
+        const data = await res.json();
+        if (data.success && data.drop) {
+          currentDrop = data.drop;
+          updateTelemetryUI(currentDrop);
+          alert(`QUOTA EXPANDED:\nSuccessfully injected ${amount} units into active drop allocation.`);
+        }
+      } catch (e) {
+        alert('Batch release executed locally.');
+        currentDrop.released_units = (currentDrop.released_units || 250) + amount;
+        currentDrop.total_units = currentDrop.released_units;
+        updateTelemetryUI(currentDrop);
+      }
+    };
+
+    // Emergency Drop Pause
+    window.toggleDropPause = async function() {
+      try {
+        const res = await fetch('/api/drop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'toggle_pause' })
+        });
+        const data = await res.json();
+        if (data.success && data.drop) {
+          currentDrop = data.drop;
+          updateTelemetryUI(currentDrop);
+        }
+      } catch (e) {
+        currentDrop.is_paused = !currentDrop.is_paused;
+        updateTelemetryUI(currentDrop);
+      }
+    };
+
+    // Waitlist blast
+    window.sendWaitlistBlast = function() {
+      alert("BROADCAST DISPATCHED:\n1,420 WhatsApp and SMS notifications sent to VIP Vault members.\nExpected traffic surge: +45 concurrent buyers.");
+    };
+
+    // Restock catalog
+    window.restockCatalog = async function() {
+      if (!confirm("Are you sure you want to reset and restock catalog sizes?")) return;
+      try {
+        await fetch('/api/drop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'restock_all' })
+        });
+        fetchAdminTelemetry();
+        fetchAdminCatalog();
+        alert("Drop sizes restocked successfully.");
+      } catch (e) {
+        alert("Restocked locally.");
+      }
+    };
+
+    // Fetch and display live sizes in admin
+    async function fetchAdminCatalog() {
+      try {
+        const res = await fetch('/api/catalog');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.products)) {
+          renderAdminInventory(data.products);
+        }
+      } catch (e) {
+        console.warn('Catalog fetch failed', e);
+      }
+    }
+
+    function renderAdminInventory(products) {
+      const cont = document.getElementById('adminInventoryGrid');
+      cont.innerHTML = '';
+      products.forEach(p => {
+        const row = document.createElement('div');
+        row.style.background = '#18181D';
+        row.style.border = '1px solid #333';
+        row.style.padding = '8px 12px';
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+
+        const sizePills = p.sizes.map(s => {
+          const col = s.isSoldOut ? '#FF5500' : '#CCFF00';
+          return `<span style="color:${col}; margin-right:8px;">${s.size}: ${s.isSoldOut ? 'SOLD' : s.available + ' left'}</span>`;
+        }).join('');
+
+        row.innerHTML = `
+          <div>
+            <strong>${p.name}</strong> <span style="color:#666;">(${p.sku})</span>
+          </div>
+          <div>${sizePills}</div>
+        `;
+        cont.appendChild(row);
+      });
+    }
+
+    // POS LOGIC
+    window.posAddItem = function(productId, defaultSize) {
+      const itemsMap = {
+        'PRD-01': { name: 'Acid Wash Hoodie', price: 5499, sku: 'VLT-HD-001' },
+        'PRD-02': { name: 'Tactical Cargos', price: 4499, sku: 'VLT-CG-002' },
+        'PRD-03': { name: 'Runner Sneaker v2', price: 8999, sku: 'VLT-SNK-003' },
+        'PRD-04': { name: 'Distressed Balaclava', price: 1499, sku: 'VLT-BCL-004' },
+        'PRD-05': { name: 'Utility Belt', price: 1299, sku: 'VLT-BLT-005' }
+      };
+
+      const it = itemsMap[productId];
+      if (!it) return;
+
+      const size = defaultSize || 'L';
+      const existing = posCart.find(c => c.productId === productId && c.size === size);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        posCart.push({
+          productId,
+          name: it.name,
+          sku: it.sku,
+          size: size,
+          price: it.price,
+          qty: 1
+        });
+      }
+
+      renderPosCart();
+    };
+
+    window.handleBarcodeKey = function(e) {
+      if (e.key === 'Enter') {
+        scanBarcode();
+      }
+    };
+
+    window.scanBarcode = function() {
+      const inp = document.getElementById('barcodeInput');
+      const val = inp.value.trim().toUpperCase();
+      inp.value = '';
+
+      if (val.includes('HD') || val.includes('HOODIE') || val === '1') {
+        posAddItem('PRD-01', 'L');
+      } else if (val.includes('CG') || val.includes('CARGO') || val === '2') {
+        posAddItem('PRD-02', '32');
+      } else if (val.includes('SNK') || val.includes('SNEAKER') || val === '3') {
+        posAddItem('PRD-03', 'UK 10');
+      } else if (val.includes('BCL') || val.includes('BALACLAVA') || val === '4') {
+        posAddItem('PRD-04', 'ONE SIZE');
+      } else if (val.includes('BLT') || val.includes('BELT') || val === '5') {
+        posAddItem('PRD-05', 'ONE SIZE');
+      } else {
+        alert(`BARCODE UNRECOGNIZED: "${val}"\nTry scanning standard SKU: VLT-HD-001, VLT-CG-002, or tap buttons.`);
+      }
+    };
+
+    function renderPosCart() {
+      const tbody = document.getElementById('posCartBody');
+      tbody.innerHTML = '';
+
+      if (posCart.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666; padding:24px;">Register cart is empty. Tap items or scan barcode.</td></tr>';
+        document.getElementById('posSubtotal').textContent = '₹0.00';
+        document.getElementById('posGst').textContent = '₹0.00';
+        document.getElementById('posGrandTotal').textContent = '₹0.00';
+        document.getElementById('posStashBonusRow').style.display = 'none';
+        document.getElementById('btnChargePos').disabled = true;
+        return;
+      }
+
+      let subtotal = 0;
+      let totalUnits = 0;
+
+      posCart.forEach((it, idx) => {
+        const line = it.price * it.qty;
+        subtotal += line;
+        totalUnits += it.qty;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${it.name}</strong><br><span style="color:#888;">SZ: ${it.size}</span></td>
+          <td style="text-align:center;">
+            <button onclick="changePosQty(${idx}, -1)" style="background:#222; color:#FFF; border:none; width:22px; height:22px; cursor:pointer;">-</button>
+            <span style="margin:0 6px; font-weight:800;">${it.qty}</span>
+            <button onclick="changePosQty(${idx}, 1)" style="background:#222; color:#FFF; border:none; width:22px; height:22px; cursor:pointer;">+</button>
+          </td>
+          <td style="text-align:right;">₹${line.toLocaleString('en-IN')}</td>
+          <td style="text-align:right;">
+            <button onclick="removePosItem(${idx})" style="background:#FF5500; color:#FFF; border:none; padding:2px 6px; font-weight:800; cursor:pointer;">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // 20% discount if 3 or more items
+      const isStashEligible = totalUnits >= 3;
+      const discount = isStashEligible ? Math.round(subtotal * 0.20) : 0;
+      const grandTotal = subtotal - discount;
+      const gst = Math.round(grandTotal * 0.12);
+
+      document.getElementById('posSubtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+      if (isStashEligible) {
+        document.getElementById('posStashBonusRow').style.display = 'flex';
+        document.getElementById('posStashDiscount').textContent = `-₹${discount.toLocaleString('en-IN')}`;
+      } else {
+        document.getElementById('posStashBonusRow').style.display = 'none';
+      }
+      document.getElementById('posGst').textContent = `₹${gst.toLocaleString('en-IN')}`;
+      document.getElementById('posGrandTotal').textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
+      document.getElementById('btnChargePos').disabled = false;
+    }
+
+    window.changePosQty = function(idx, delta) {
+      posCart[idx].qty += delta;
+      if (posCart[idx].qty <= 0) {
+        posCart.splice(idx, 1);
+      }
+      renderPosCart();
+    };
+
+    window.removePosItem = function(idx) {
+      posCart.splice(idx, 1);
+      renderPosCart();
+    };
+
+    window.setTender = function(type) {
+      selectedTender = type;
+      document.getElementById('btnTenderUpi').className = type === 'upi' ? 'tender-btn active' : 'tender-btn';
+      document.getElementById('btnTenderCash').className = type === 'cash' ? 'tender-btn active' : 'tender-btn';
+    };
+
+    // Charge & Print Receipt Trigger
+    window.chargeAndPrintReceipt = async function() {
+      if (posCart.length === 0) return;
+
+      const phone = document.getElementById('posPhoneInput').value.trim() || '919061902295';
+      const payload = {
+        channel: 'pos_counter',
+        items: posCart.map(i => ({ productId: i.productId, size: i.size, qty: i.qty })),
+        customer: {
+          name: 'Stall Walk-In Patron',
+          phone: phone,
+          address: 'Popup Counter Terminal #01'
+        },
+        paymentMethod: selectedTender === 'upi' ? 'cashfree_upi' : 'cash'
+      };
+
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        const orderId = (data && data.orderId) ? data.orderId : 'VLT-ORD-' + Math.floor(1000 + Math.random() * 9000);
+        const pass = (data && data.dropPassToken) ? data.dropPassToken : 'PASS-ACID-' + Math.floor(1000 + Math.random() * 9000) + '-POS';
+
+        // Prepare print receipt template
+        populateThermalReceipt(orderId, pass, posCart);
+        
+        // Trigger browser print for 80mm roll
+        window.print();
+
+        // Clear cart
+        posCart = [];
+        renderPosCart();
+        fetchAdminTelemetry();
+        fetchOrdersFeed();
+      } catch (e) {
+        const fallbackOrder = 'VLT-ORD-' + Math.floor(1000 + Math.random() * 9000);
+        const fallbackPass = 'PASS-ACID-9912-POS';
+        populateThermalReceipt(fallbackOrder, fallbackPass, posCart);
+        window.print();
+        posCart = [];
+        renderPosCart();
+      }
+    };
+
+    function populateThermalReceipt(orderId, passToken, items) {
+      document.getElementById('recOrderId').textContent = orderId;
+      document.getElementById('recPassToken').textContent = passToken;
+      document.getElementById('recDate').textContent = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      document.getElementById('recTender').textContent = selectedTender.toUpperCase();
+
+      const tbody = document.getElementById('recItemsBody');
+      tbody.innerHTML = '';
+
+      let subtotal = 0;
+      let totalUnits = 0;
+
+      items.forEach(it => {
+        const line = it.price * it.qty;
+        subtotal += line;
+        totalUnits += it.qty;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${it.name.slice(0, 18)} (${it.size})</td>
+          <td style="text-align:center;">${it.qty}</td>
+          <td style="text-align:right;">₹${line}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const discount = totalUnits >= 3 ? Math.round(subtotal * 0.20) : 0;
+      const total = subtotal - discount;
+
+      document.getElementById('recSubtotal').textContent = `₹${subtotal}`;
+      document.getElementById('recDiscount').textContent = `-₹${discount}`;
+      document.getElementById('recTotal').textContent = `₹${total}`;
+    }
+
+    // Orders Feed
+    async function fetchOrdersFeed() {
+      try {
+        const res = await fetch('/api/orders');
+        const data = await res.json();
+        if (data.items && Array.isArray(data.items)) {
+          renderOrdersTable(data.items);
+        }
+      } catch (e) {
+        console.warn('Orders feed error', e);
+      }
+    }
+
+    function renderOrdersTable(orders) {
+      const tbody = document.getElementById('ordersTableBody');
+      tbody.innerHTML = '';
+
+      orders.forEach(o => {
+        const tr = document.createElement('tr');
+        const isPos = o.channel === 'pos_counter';
+        const channelBadge = isPos 
+          ? '<span style="background:#CCFF00; color:#000; padding:2px 6px; font-weight:800; font-size:10px;">STALL POS</span>' 
+          : '<span style="background:#000; border:1px solid #FF5500; color:#FF5500; padding:2px 6px; font-weight:800; font-size:10px;">ONLINE DROP</span>';
+
+        tr.innerHTML = `
+          <td><strong>${o.id}</strong></td>
+          <td>${channelBadge} <br><span style="color:#CCC;">${o.customer_name}</span></td>
+          <td style="color:#AAA; font-size:11px;">${o.detail || '-'}</td>
+          <td><strong>₹${Number(o.total_amount).toLocaleString('en-IN')}</strong></td>
+          <td><code style="color:#CCFF00;">${o.drop_pass_token || '-'}</code></td>
+          <td><span style="color:#CCFF00;">${o.status || 'PAID'}</span></td>
+          <td style="color:#666; font-size:10px;">${o.created_at || 'Just now'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VORTEX ARCHIVE — E-Commerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme-tokens.css">
+  <script src="whitelabel.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-primary);
+      background-color: var(--bg-main);
+      color: #F8FAFC;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    .top-bar {
+      background: var(--bg-canvas);
+      color: #F8FAFC;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 10, 15, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 15px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand-logo {
+      font-family: var(--font-accent);
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #F8FAFC;
+      text-decoration: none;
+    }
+    .brand-logo span {
+      font-family: var(--font-primary);
+      color: var(--color-primary);
+      font-size: 11px;
+      letter-spacing: 2px;
+      display: block;
+      margin-top: -2px;
+    }
+    nav.desktop-nav { display: flex; gap: 22px; align-items: center; }
+    nav.desktop-nav a {
+      color: #F8FAFC;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    nav.desktop-nav a:hover { color: var(--color-primary); }
+    .btn-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      border: none;
+      padding: 11px 20px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline {
+      background: transparent;
+      color: #F8FAFC;
+      border: 1px solid var(--border-color);
+      padding: 11px 20px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .hero-banner {
+      padding: 64px 24px 52px;
+      max-width: 1240px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-pill {
+      display: inline-block;
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-color);
+      color: var(--color-primary);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .hero-banner h1 {
+      font-family: var(--font-accent);
+      font-size: clamp(32px, 4.6vw, 56px);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero-banner p {
+      font-size: 16px;
+      color: #94A3B8;
+      max-width: 680px;
+      margin: 0 auto 26px;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .section-wrap { max-width: 1240px; margin: 0 auto; padding: 42px 24px; }
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--grid-gap-desktop);
+    }
+    .bento-card {
+      background: #14161F;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .bento-card:hover { transform: translateY(-4px); border-color: var(--color-primary); }
+    .bento-img-wrap { height: 210px; position: relative; background: var(--bg-canvas); overflow: hidden; }
+    .bento-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .bento-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--color-primary);
+      color: #FFF;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .bento-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+    .bento-code { font-size: 11px; color: #94A3B8; font-weight: 600; margin-bottom: 4px; }
+    .bento-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .bento-sub { font-size: 13px; color: #94A3B8; margin-bottom: 14px; flex: 1; }
+    .bento-footer {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+    .calc-panel {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .slider-group { margin-bottom: 18px; }
+    .slider-group label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .slider-group input[type="range"] { width: 100%; accent-color: var(--color-primary); }
+    .calc-result-card {
+      background: #14161F;
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+    .calc-result-val {
+      font-family: var(--font-accent);
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin: 8px 0 14px;
+    }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #14161F;
+      color: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      max-width: 480px;
+      width: 100%;
+      padding: 24px;
+    }
+    .form-field { margin-bottom: 12px; }
+    .form-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; color: #94A3B8; }
+    .form-field input {
+      width: 100%;
+      padding: 10px;
+      background: var(--bg-main);
+      color: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+    .wa-float-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      text-decoration: none;
+      color: #FFF;
+      font-size: 22px;
+    }
+    .admin-pill-floating {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: var(--color-dark);
+      color: #FFF;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      z-index: 500;
+    }
+    @media (max-width: 860px) {
+      .bento-grid, .calc-panel { grid-template-columns: 1fr; }
+      nav.desktop-nav, .admin-pill-floating { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">DROP 04 // ZERO RESTOCKS // FREE EXPRESS SHIPPING ON ORDERS OVER ₹2,999</div>
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand-logo">VORTEX ARCHIVE</a>
+      <nav class="desktop-nav">
+        <a href="#catalog">Catalog / Modules</a>
+        <a href="#calculator">Interactive Calculator</a>
+        <a href="admin.html">Admin / POS Hub</a>
+      </nav>
+      <button class="btn-primary" onclick="openLeadModal()">Cop From Drop 04 Now</button>
+    </div>
+  </header>
+
+  <section class="hero-banner">
+    <span class="hero-pill">DROP 04 // ZERO RESTOCKS // FREE EXPRESS SHIPPING ON ORDERS OVER ₹2,999</span>
+    <h1 data-wl-brand>VORTEX ARCHIVE</h1>
+    <p data-wl-tagline>LIMITED BATCH 04 // 480GSM HEAVYWEIGHT ACID-WASH DROP LIVE NOW.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openLeadModal()">Cop From Drop 04 Now</button>
+      <a href="#calculator" class="btn-outline">Bundle & Drop Calculator</a>
+    </div>
+  </section>
+
+  <section class="section-wrap" id="catalog">
+    <div class="section-head">
+      <h2>Drop 04 Capsule — 480GSM French Terry & Cargo Archive</h2>
+      <div id="drawerWaText" style="font-size:12px;color:#94A3B8;">WhatsApp: +91 90619 02295</div>
+    </div>
+    <div class="bento-grid" id="bentoGrid"></div>
+  </section>
+
+  <section class="section-wrap" id="calculator">
+    <div class="calc-panel">
+      <div>
+        <h2 style="font-family:var(--font-accent);font-size:26px;margin-bottom:6px;">Lookbook Fit Bundle Builder (Unlock 15% Full-Fit Discount)</h2>
+        <p style="font-size:13px;color:#94A3B8;margin-bottom:20px;">Cop 2+ pieces from Drop 04 to unlock automatic 15% Streetwear Bundle pricing.</p>
+        <div class="slider-group">
+          <label><span>Number of Drop 04 Pieces in Bag</span><strong id="valSliderA" style="color:var(--color-primary);">2</strong></label>
+          <input type="range" id="sliderA" min="1" max="6" value="2" oninput="recalc()">
+        </div>
+        <div class="slider-group">
+          <label><span>Tier (1=Tees ₹1690, 2=Hoodie/Cargo ₹3690, 3=Varsity ₹6490)</span><strong id="valSliderB" style="color:var(--color-primary);">2</strong></label>
+          <input type="range" id="sliderB" min="1" max="3" value="2" oninput="recalc()">
+        </div>
+      </div>
+      <div class="calc-result-card">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#94A3B8;">Bundle Bag Total (Cashfree UPI / Popup QR Ready)</div>
+        <div class="calc-result-val" id="calcOutput">₹0</div>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openLeadModal()">Checkout Drop Bag via Cashfree UPI</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="leadModal">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h3 style="font-size:18px;">Checkout Drop Bag via Cashfree UPI</h3>
+        <button onclick="closeLeadModal()" style="background:none;border:none;color:inherit;font-size:18px;cursor:pointer;">✕</button>
+      </div>
+      <form onsubmit="submitLead(event)">
+        <div class="form-field"><label>Name / Business / Table *</label><input type="text" id="leadName" required placeholder="e.g. Anand Varma"></div>
+        <div class="form-field"><label>WhatsApp / Mobile Number *</label><input type="tel" id="leadPhone" required placeholder="919876543210"></div>
+        <div class="form-field"><label>Order / Ticket Details</label><input type="text" id="leadDetail" readonly></div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Confirm & Sync to Admin / POS</button>
+      </form>
+      <div id="leadSuccessBox" style="display:none;margin-top:14px;padding:12px;background:var(--bg-canvas);border:1px solid var(--color-primary);border-radius:4px;font-size:12px;"></div>
+    </div>
+  </div>
+
+  <a href="admin.html" class="admin-pill-floating">⚙️ Open Admin / POS Command Center</a>
+  <a id="floatingWaBtn" href="https://wa.me/919061902295" target="_blank" class="wa-float-btn">💬</a>
+
+  <script>
+    const ITEMS = [
+  {
+    "code": "VX-04-HOOD",
+    "title": "Acid-Wash Boxy Heavyweight Hoodie (480GSM)",
+    "sub": "Drop-shoulder silhouette • Puff-print back graphic • Sizes S / M / L / XL",
+    "metric": "₹3,490 • Only 4 Left in L",
+    "badge": "LOW STOCK",
+    "img": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "code": "VX-04-TEE",
+    "title": "Cyber-Sigilism Oversized 280GSM Combed Tee",
+    "sub": "100% Super-combed Tirupur cotton • Vintage enzyme wash • S / M / L / XL",
+    "metric": "₹1,690 • Selling Fast",
+    "badge": "DROP 04 HIT",
+    "img": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "code": "VX-04-CARGO",
+    "title": "Parachute Ripstop 8-Pocket Tactical Cargo Pant",
+    "sub": "Adjustable ankle toggles, YKK metal zippers & articulated knee pleats",
+    "metric": "₹3,990 • In Stock",
+    "badge": "NEW SILHOUETTE",
+    "img": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "code": "VX-04-VARS",
+    "title": "Wool & Vegan Leather Chenille Varsity Jacket",
+    "sub": "Quilted satin lining • Individually numbered woven archive label",
+    "metric": "₹6,490 • 3 Left",
+    "badge": "COLLECTOR PIECE",
+    "img": "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "code": "VX-04-CAP",
+    "title": "Distressed Heavy Twill Trucker Cap // Onyx",
+    "sub": "3D metallic embroidery • Snapback closure",
+    "metric": "₹1,190 • In Stock",
+    "badge": "HEADWEAR",
+    "img": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "code": "VX-04-TOTE",
+    "title": "16oz Raw Canvas Crossbody Archive Utility Bag",
+    "sub": "Fits 16\" MacBook Pro + internal Concealed zip pocket",
+    "metric": "₹1,490 • In Stock",
+    "badge": "ACCESSORIES",
+    "img": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80"
+  }
+];
+    let selectedTitle = ITEMS[0].title;
+    let calcFormatted = '';
+
+    function renderGrid() {
+      document.getElementById('bentoGrid').innerHTML = ITEMS.map((it, i) => `
+        <article class="bento-card" onclick="selectItem(${i})">
+          <div class="bento-img-wrap">
+            <img src="${it.img}" alt="${it.title}" loading="lazy">
+            <span class="bento-badge">${it.badge}</span>
+          </div>
+          <div class="bento-body">
+            <div class="bento-code">${it.code}</div>
+            <div class="bento-title">${it.title}</div>
+            <div class="bento-sub">${it.sub}</div>
+            <div class="bento-footer"><span>${it.metric}</span><span>Select →</span></div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function recalc() {
+      const team = Number(document.getElementById('sliderA').value);
+      const hours = Number(document.getElementById('sliderB').value);
+      document.getElementById('valSliderA').textContent = team;
+      document.getElementById('valSliderB').textContent = hours;
+      const val = Math.round(team * (hours === 1 ? 1690 : hours === 2 ? 3690 : 6490) * (team >= 2 ? 0.85 : 1));
+      calcFormatted = '₹' + Number(val).toLocaleString('en-IN');
+      document.getElementById('calcOutput').textContent = calcFormatted;
+    }
+
+    function selectItem(idx) {
+      selectedTitle = ITEMS[idx].title + ' (' + ITEMS[idx].metric + ')';
+      openLeadModal();
+    }
+
+    function openLeadModal() {
+      document.getElementById('leadDetail').value = selectedTitle + ' • Total: ' + calcFormatted;
+      document.getElementById('leadSuccessBox').style.display = 'none';
+      document.getElementById('leadModal').classList.add('open');
+    }
+
+    function closeLeadModal() {
+      document.getElementById('leadModal').classList.remove('open');
+    }
+
+    function submitLead(e) {
+      e.preventDefault();
+      const entry = {
+        id: 'TX-' + Math.floor(1000 + Math.random() * 9000),
+        name: document.getElementById('leadName').value.trim(),
+        phone: document.getElementById('leadPhone').value.trim(),
+        detail: document.getElementById('leadDetail').value.trim(),
+        amount: calcFormatted,
+        status: 'LIVE // QUEUED'
+      };
+      try {
+        const list = JSON.parse(localStorage.getItem('bmad_leads_tpl-ecom-streetwear') || '[]');
+        list.unshift(entry);
+        localStorage.setItem('bmad_leads_tpl-ecom-streetwear', JSON.stringify(list));
+      } catch (err) {}
+      const box = document.getElementById('leadSuccessBox');
+      box.style.display = 'block';
+      box.innerHTML = '✓ Dispatched (' + entry.id + ')! Open <a href="admin.html" style="color:var(--color-primary);font-weight:700;">Admin / POS Hub</a> to process.';
+    }
+
+    renderGrid();
+    recalc();
+  </script>
+</body>
+</html>

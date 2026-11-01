@@ -1,0 +1,13 @@
+<section class="bmad-hero" style="--color-primary: {{ section.settings.primary_color }};">
+  <h1>{{ section.settings.heading | default: "VORTEX ARCHIVE" }}</h1>
+  <p>{{ section.settings.subheading | default: "LIMITED BATCH 04 // 480GSM HEAVYWEIGHT ACID-WASH DROP LIVE NOW." }}</p>
+</section>
+{% schema %}
+{
+  "name": "VORTEX ARCHIVE Hero",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Brand Heading", "default": "VORTEX ARCHIVE" },
+    { "type": "color", "id": "primary_color", "label": "Primary Accent", "default": "#E11D48" }
+  ]
+}
+{% endschema %}

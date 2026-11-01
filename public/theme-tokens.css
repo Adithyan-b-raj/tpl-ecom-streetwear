@@ -1,0 +1,17 @@
+/* Extracted via tpl-tools-design-extractor for tpl-ecom-streetwear */
+:root {
+  --font-primary: 'Space Grotesk', sans-serif;
+  --font-accent: 'Syne', sans-serif;
+  --color-primary: #E11D48;
+  --brand-primary: var(--color-primary);
+  --color-dark: #09090B;
+  --brand-dark: var(--color-dark);
+  --bg-main: #09090B;
+  --bg-canvas: #141418;
+  --bg-sand: var(--bg-canvas);
+  --border-color: #27272A;
+  --grid-gap-desktop: 28px 22px;
+  --grid-gap-mobile: 16px 14px;
+  --radius: 6px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
